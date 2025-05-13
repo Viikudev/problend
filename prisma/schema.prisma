@@ -16,17 +16,17 @@ model Answer {
   imageUrl  String        @db.VarChar
   status    answer_status
   issueId   String        @db.Uuid
-  userId    String        @db.Uuid
+  userId      String       @db.VarChar(255)
   createdAt DateTime      @default(now()) @db.Timestamptz(6)
   Issue     Issue         @relation(fields: [issueId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Answer_issue_id_fkey")
-  User      User          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Answer_user_id_fkey")
+  User      User          @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Answer_user_id_fkey")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Issue {
   id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title       String       @db.VarChar
-  userId      String       @db.Uuid
+  userId      String       @db.VarChar(255)
   description String
   status      issue_status @default(active)
   area        area
@@ -34,17 +34,25 @@ model Issue {
   createdAt   DateTime     @default(now()) @db.Timestamptz(6)
   hasAnswer   Boolean      @default(false)
   Answer      Answer[]
-  User        User         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
+  User        User         @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model User {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+<<<<<<< HEAD
   clerkId   String   @unique @db.VarChar(255)
   firstname String?  @db.VarChar
   lastname  String?  @db.VarChar
   points    Int      @default(0) @db.SmallInt
   email     String?  @db.VarChar
+=======
+  clerkId   String    @unique @db.VarChar(255)
+  firstname String?   @db.VarChar
+  lastname  String?   @db.VarChar
+  points Int @db.SmallInt @default(0)
+  email       String?   @db.VarChar
+>>>>>>> fe5efd26667b345615ae057c417d7633d4711e53
   Answer    Answer[]
   Issue     Issue[]
 }
