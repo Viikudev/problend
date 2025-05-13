@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -27,7 +28,7 @@ model Issue {
   title       String       @db.VarChar
   userId      String       @db.Uuid
   description String
-  status      issue_status
+  status      issue_status @default(active)
   area        area
   imageUrl    String?      @db.VarChar
   createdAt   DateTime     @default(now()) @db.Timestamptz(6)
@@ -39,11 +40,11 @@ model Issue {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model User {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerkId   String    @unique @db.VarChar(255)
-  firstname String   @db.VarChar
-  lastname  String   @db.VarChar
-  points Int @db.SmallInt @default(0)
-  email       String?   @db.VarChar
+  clerkId   String   @unique @db.VarChar(255)
+  firstname String?  @db.VarChar
+  lastname  String?  @db.VarChar
+  points    Int      @default(0) @db.SmallInt
+  email     String?  @db.VarChar
   Answer    Answer[]
   Issue     Issue[]
 }
