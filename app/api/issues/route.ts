@@ -1,6 +1,8 @@
-import { PrismaClient } from "@prisma/client"
-import { NextRequest, NextResponse } from "next/server"
-const prisma = new PrismaClient()
+
+import { PrismaClient } from '@prisma/client';
+import { NextRequest, NextResponse } from "next/server";
+const prisma = new PrismaClient();
+
 
 // Función para crear un nuevo "issue"
 export async function POST(request: NextRequest) {
