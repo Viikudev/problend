@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+import { PrismaClient } from "@prisma/client"
+import { NextResponse } from "next/server"
+
+export const dynamic = "force-static"
+
+const prisma = new PrismaClient()
+
+export async function GET() {
+  const issues = await prisma.issue.findMany()
+  return NextResponse.json(issues)
+=======
 
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from "next/server";
@@ -30,6 +42,7 @@ export async function POST(request: NextRequest) {
     console.error('Error al crear ISSUE:', error);
     return NextResponse.json({ error: 'Error al crear ISSUE' }, { status: 500 });
   }
+>>>>>>> fe5efd26667b345615ae057c417d7633d4711e53
 }
 
 // Función para obtener todos los "issues"

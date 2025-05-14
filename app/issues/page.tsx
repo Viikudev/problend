@@ -28,7 +28,7 @@ function Page() {
               title={issue.title}
               description={issue.description}
               area={issue.area}
-              clerkId={issue.clerkId}
+              userId={issue.userId}
               createdAt={issue.createdAt}
               issueStatus={issue.issueStatus}
               hasAnswer={issue.hasAnswer}
