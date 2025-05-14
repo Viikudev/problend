@@ -1,5 +1,6 @@
 import { type Metadata } from "next"
 import Link from "next/link"
+import { GlowingLogo } from '@/app/components/Logo';
 import {
   ClerkProvider,
   SignInButton,
@@ -36,22 +37,20 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
           <header className='flex justify-between items-center p-4 gap-4 h-16'>
-            <Link href='http://localhost:3000/'>
-              <div>LOGO</div>
+            <Link href='/'>
+              <GlowingLogo className="w-full" />
             </Link>
             <nav>
               <ul className='flex gap-4'>
                 <Link
-                  href='http://localhost:3000/issues'
+                  href='/issues'
                   className='hover:underline'
                 >
                   <li>Application</li>
                 </Link>
-                <Link href='http://localhost:3000/leaderboards'>
+                <Link href='/leaderboards'>
                   <li className='hover:underline'>Leaderboard</li>
                 </Link>
               </ul>

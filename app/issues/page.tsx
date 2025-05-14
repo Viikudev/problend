@@ -11,7 +11,8 @@ function Page() {
 
   useEffect(() => {
     const getIssues = async () => {
-      const response = await axios.get("http://localhost:3000/api/issues")
+      const currentOrigin = window.location.origin;
+      const response = await axios.get(`${currentOrigin}/api/issues`)
       setIssues(response.data)
     }
     getIssues()

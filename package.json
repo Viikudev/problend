@@ -16,21 +16,19 @@
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-label": "^2.1.6",
     "@radix-ui/react-slot": "^1.2.2",
+    "@radix-ui/react-tabs": "^1.1.11",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.11.3",
     "lucide-react": "^0.509.0",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.3",
     "svix": "^1.65.0",
-<<<<<<< HEAD
     "tailwind-merge": "^3.3.0",
     "zod": "^3.24.4"
-=======
-    "tailwind-merge": "^3.3.0"
->>>>>>> 2f3ece41e5a6fa53de915bfbcdd9db11fcffda11
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
