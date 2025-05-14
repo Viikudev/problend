@@ -1,6 +1,6 @@
 export type IssueProps = {
   id: string
-  userId: string
+  clerkId: string
   title: string
   description: string
   imageUrl?: string

@@ -3,8 +3,8 @@
 import React from "react"
 import IssueCard from "../components/IssueCard"
 import { useState, useEffect } from "react"
-import axios from "axios"
 import { IssueProps } from "../types/issue"
+import axios from "axios"
 
 function Page() {
   const [issues, setIssues] = useState<IssueProps[]>([])
@@ -20,7 +20,7 @@ function Page() {
   return (
     <>
       <main className='px-10'>
-        <ul className='grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] gap-10 justify-center'>
+        <ul className='grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center'>
           {issues.map((issue: IssueProps) => (
             <IssueCard
               key={issue.id}
@@ -28,7 +28,7 @@ function Page() {
               title={issue.title}
               description={issue.description}
               area={issue.area}
-              userId={issue.userId}
+              clerkId={issue.clerkId}
               createdAt={issue.createdAt}
               issueStatus={issue.issueStatus}
               hasAnswer={issue.hasAnswer}

@@ -1,22 +1,15 @@
 "use client"
 
-import React from "react"
 import { Button } from "./ui/button"
 import Link from "next/link"
 import { IssueProps } from "../types/issue"
 
-function IssueCard({
-  id,
-  area,
-  description,
-  title,
-  createdAt,
-  hasAnswer,
-}: IssueProps) {
+function IssueCard({ id, area, title, createdAt, hasAnswer }: IssueProps) {
   const date = new Date(createdAt).toLocaleDateString()
+
   return (
     <li className='flex flex-col justify-between shadow-md border transition-all'>
-      <div className='flex items-start p-2 pb-0'>
+      <div className='flex justify-between items-start p-2 pb-0'>
         <div>
           <p
             className={`font-bold
@@ -30,7 +23,7 @@ function IssueCard({
             {area.replace(/_/g, " ")}
           </p>
           <p className='font-semibold'>{title}</p>
-          <p className='break-all'>{description}</p>
+          {/* <p>{description}</p> */}
         </div>
         <div className='font-medium'>
           {hasAnswer ? (
@@ -48,7 +41,7 @@ function IssueCard({
         <div className='flex flex-col justify-between '></div>
         <div className='flex justify-between items-end'>
           <div className='text-xs'>Created at {date}</div>
-          <Link href='http://localhost:3000/issues/1'>
+          <Link href={`http://localhost:3000/issues/${id}`}>
             <Button variant='default' size='sm' className='text-xs font-bold'>
               {hasAnswer ? "See Answer" : "Write Answer"}
             </Button>
