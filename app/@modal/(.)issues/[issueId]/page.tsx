@@ -14,8 +14,9 @@ export default function Issue() {
 
   useEffect(() => {
     const fetchIssueData = async () => {
+      const currentOrigin = window.location.origin
       const response = await axios.get(
-        `http://localhost:3000/api/issues/${params.issueId}`
+        `${currentOrigin}/api/issues/${params.issueId}`
       )
       setIssue(response.data)
     }

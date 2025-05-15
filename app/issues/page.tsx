@@ -34,7 +34,7 @@ function Page() {
               area={issue.area}
               clerkId={issue.clerkId}
               createdAt={issue.createdAt}
-              issueStatus={issue.issueStatus}
+              status={issue.status}
               hasAnswer={issue.hasAnswer}
             />
           ))}

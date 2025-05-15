@@ -6,7 +6,7 @@ export type IssueProps = {
   imageUrl?: string
   area: keyof typeof areas
   createdAt: Date
-  issueStatus: "active" | "resolved"
+  status:  keyof typeof status
   hasAnswer: boolean
 }
 
@@ -19,4 +19,9 @@ export const areas = {
   Accounting: "Accounting",
   Mechanics: "Mechanics",
   Graphic_Design: "Graphic Design",
+}
+
+export const status = {
+  resolved: "resolved",
+  active: "active",
 }
