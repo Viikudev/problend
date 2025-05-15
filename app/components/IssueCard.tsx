@@ -18,9 +18,10 @@ function IssueCard({ id, area, title, createdAt, hasAnswer }: IssueProps) {
                 ${area === "Cooking" && "text-amber-700"}
                 ${area === "Video_Edition" && "text-fuchsia-700"}
                 ${area === "Graphic_Design" && "text-red-700"} 
+                ${area === "Languages" && "text-sky-700"} 
             `}
           >
-            {area.replace(/_/g, " ")}
+            {area.replace("_", " ")}
           </p>
           <p className='font-semibold'>{title}</p>
           {/* <p>{description}</p> */}

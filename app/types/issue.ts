@@ -4,19 +4,19 @@ export type IssueProps = {
   title: string
   description: string
   imageUrl?: string
-  area: area
+  area: keyof typeof areas
   createdAt: Date
   issueStatus: "active" | "resolved"
   hasAnswer: boolean
 }
 
-export enum area {
-  Programming = "Programming",
-  Cooking = "Cooking",
-  Electronics = "Electronics",
-  Languages = "Languages",
-  Video_Edition = "Video_Edition",
-  Accounting = "Accounting",
-  Mechanics = "Mechanics",
-  Graphic_Design = "Graphic_Design",
+export const areas = {
+  Programming: "Programming",
+  Cooking: "Cooking",
+  Electronics: "Electronics",
+  Languages: "Languages",
+  Video_Edition: "Video Edition",
+  Accounting: "Accounting",
+  Mechanics: "Mechanics",
+  Graphic_Design: "Graphic Design",
 }

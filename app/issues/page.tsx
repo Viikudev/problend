@@ -1,7 +1,10 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 import IssueCard from "../components/IssueCard"
+import IssueForm from "../components/IssueForm"
+import { Button } from "../components/ui/button"
 import { useState, useEffect } from "react"
 import { IssueProps } from "../types/issue"
 import axios from "axios"
@@ -11,7 +14,7 @@ function Page() {
 
   useEffect(() => {
     const getIssues = async () => {
-      const currentOrigin = window.location.origin;
+      const currentOrigin = window.location.origin
       const response = await axios.get(`${currentOrigin}/api/issues`)
       setIssues(response.data)
     }
@@ -36,6 +39,9 @@ function Page() {
             />
           ))}
         </ul>
+        <Link href='/issueform'>
+          <Button>Create Issue</Button>
+        </Link>
       </main>
     </>
   )
