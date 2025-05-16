@@ -9,6 +9,12 @@ import { useState, useEffect } from "react"
 import { IssueProps } from "../types/issue"
 import axios from "axios"
 
+import {
+  SignedIn,
+  SignInButton,
+  SignedOut,
+} from "@clerk/nextjs"
+
 function Page() {
   const [issues, setIssues] = useState<IssueProps[]>([])
 
@@ -40,7 +46,9 @@ function Page() {
             />
           ))}
         </ul>
-        <Link href='/issueform' className='fixed right-10 bottom-20 '>
+    <div className='fixed right-10 bottom-20'>
+      <SignedIn>
+        <Link href='/issueform'>
           <Button
             variant='floating'
             size='lg'
@@ -55,6 +63,26 @@ function Page() {
             Create Issue
           </Button>
         </Link>
+      </SignedIn>
+      
+      <SignedOut>
+        <SignInButton mode='modal'>
+          <Button
+            variant='floating'
+            size='lg'
+            className='flex items-center cursor-pointer'
+          >
+            <Image
+              src='/issue.svg'
+              alt='create issue icon'
+              width={30}
+              height={30}
+            />
+            Create Issue
+          </Button>
+        </SignInButton>
+      </SignedOut>
+    </div>
       </main>
     </>
   )

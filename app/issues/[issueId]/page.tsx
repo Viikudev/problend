@@ -1,20 +1,17 @@
-"use client";
-import { useUser } from "@clerk/nextjs";
+'use client';
 
-export default function Issue() {
-  const { isLoaded, user } = useUser();
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-  if (!isLoaded) {
-    return <div>Cargando información del usuario...</div>;
-  }
+export default function IssueDetail() {
+  const router = useRouter();
 
-  if (user) {
-    return (
-      <div className="mt-2 grid place-content-center">
-        Hello World, tu ID de usuario es: {user.id}
-      </div>
-    );
-  }
-
-  return <div className="mt-2 grid place-content-center">No hay usuario autenticado.</div>;
+  useEffect(() => {
+    router.replace('/issues');
+  }, [router]); 
+  return (
+    <div>
+      <p>Redirigiendo a la página principal de issues...</p>
+    </div>
+  );
 }

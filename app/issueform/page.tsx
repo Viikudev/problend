@@ -1,9 +1,17 @@
-import IssueForm from "../components/IssueForm"
+'use client';
 
-export default function IssueFormPage() {
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function IssueDetail() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/issues');
+  }, [router]); 
   return (
-    <>
-      <IssueForm />
-    </>
-  )
+    <div>
+      <p>Redirigiendo a la página principal de issues...</p>
+    </div>
+  );
 }

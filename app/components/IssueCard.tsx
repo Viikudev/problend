@@ -5,6 +5,12 @@ import Link from "next/link"
 import { IssueProps, areas } from "../types/issue"
 import { useState } from "react"
 
+import {
+  SignedIn,
+  SignInButton,
+  SignedOut,
+} from "@clerk/nextjs"
+
 function IssueCard({
   id,
   area,
@@ -84,23 +90,48 @@ function IssueCard({
         </div>
       </div>
       <div className='flex flex-col gap-10 py-2 px-2'>
+        
         <div className='flex flex-col justify-between'></div>
         <div className='flex justify-between items-end'>
-          <div className='text-xs'>Created at {date}</div>
-          <Link href={`/issues/${id}`}>
-            <Button
-              variant='default'
-              className={`text-xs font-bold transition-all duration-200 ${
-                isButtonHovered ? "scale-105" : "scale-100"
-              }`}
-              onMouseEnter={() => setIsButtonHovered(true)}
-              onMouseLeave={() => setIsButtonHovered(false)}
-            >
-              {hasAnswer ? "See Answer" : "Write Answer"}
-            </Button>
-          </Link>
+
+          
+            <div className='text-xs'>Created at {date}</div>
+            <SignedIn>
+            <Link href={`/issues/${id}`}>
+              <Button
+                variant='default'
+                className={`text-xs font-bold transition-all duration-200 ${
+                  isButtonHovered ? "scale-105" : "scale-100"
+                }`}
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
+              >
+                {hasAnswer ? "See Answer" : "Write Answer"}
+              </Button>
+            </Link>
+          </SignedIn>
+
+
+           <SignedOut>
+            <SignInButton mode='modal'>
+
+              <Button
+                variant='default'
+                className={`text-xs font-bold transition-all duration-200 ${
+                  isButtonHovered ? "scale-105" : "scale-100"
+                }`}
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
+              >
+                {hasAnswer ? "See Answer" : "Write Answer"}
+              </Button>
+            </SignInButton>
+           </SignedOut>
+
         </div>
+        
       </div>
+      
     </li>
   )
 }
