@@ -37,6 +37,11 @@ export default function IssueForm() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      area: "",
+    },
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -54,7 +59,8 @@ export default function IssueForm() {
     }
   }
 
-  const areasArray = Object.values(areas)
+  const areasArray = Object.entries(areas)
+  console.log(areasArray)
 
   return (
     <Form {...form}>
@@ -105,8 +111,8 @@ export default function IssueForm() {
                 </FormControl>
                 <SelectContent>
                   {areasArray.map((area) => (
-                    <SelectItem key={area} value={area}>
-                      {area}
+                    <SelectItem key={area[0]} value={area[0]}>
+                      {area[1]}
                     </SelectItem>
                   ))}
                 </SelectContent>

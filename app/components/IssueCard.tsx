@@ -1,17 +1,24 @@
-"use client";
+"use client"
 
-import { Button } from "./ui/button";
-import Link from "next/link";
-import { IssueProps } from "../types/issue";
-import { useState } from "react";
+import { Button } from "./ui/button"
+import Link from "next/link"
+import { IssueProps, areas } from "../types/issue"
+import { useState } from "react"
 
-function IssueCard({ id, area, title, createdAt, hasAnswer,status }: IssueProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isButtonHovered, setIsButtonHovered] = useState(false);
-  const date = new Date(createdAt).toLocaleDateString();
+function IssueCard({
+  id,
+  area,
+  title,
+  createdAt,
+  hasAnswer,
+  status,
+}: IssueProps) {
+  const [isHovered, setIsHovered] = useState(false)
+  const [isButtonHovered, setIsButtonHovered] = useState(false)
+  const date = new Date(createdAt).toLocaleDateString()
 
   return (
-    <li 
+    <li
       className={`flex flex-col justify-between border transition-all duration-300 ${
         isHovered ? "shadow-md shadow-gray-300" : "shadow-sm"
       }`}
@@ -19,35 +26,59 @@ function IssueCard({ id, area, title, createdAt, hasAnswer,status }: IssueProps)
       onMouseLeave={() => setIsHovered(false)}
       style={{
         transform: isHovered ? "translateX(1.5px)" : "translateX(0)",
-        transition: "transform 0.3s ease, box-shadow 0.3s ease"
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
       }}
     >
       <div className='flex justify-between items-start p-2 pb-0'>
         <div>
-          <p
-            className={`font-bold
-                ${area === "Programming" && "text-blue-700"}
-                ${area === "Accounting" && "text-green-700"}
-                ${area === "Cooking" && "text-amber-700"}
-                ${area === "Video_Edition" && "text-fuchsia-700"}
-                ${area === "Graphic_Design" && "text-red-700"} 
-                ${area === "Languages" && "text-sky-700"} 
-            `}
-          >
-            {area.replace("_", " ")}
-          </p>
+          {area === "programming" && (
+            <p className='text-blue-700 font-bold'>{areas.programming}</p>
+          )}
+          {area === "mechanics" && (
+            <p className='text-gray-700 font-bold'>{areas.mechanics}</p>
+          )}
+          {area === "mathematics" && (
+            <p className='text-cyan-700 font-bold'>{areas.mathematics}</p>
+          )}
+          {area === "accounting" && (
+            <p className='text-green-700 font-bold'>{areas.accounting}</p>
+          )}
+          {area === "languages" && (
+            <p className='text-blue-700 font-bold'>{areas.languages}</p>
+          )}
+          {area === "electronics" && (
+            <p className='text-blue-700 font-bold'>{areas.electronics}</p>
+          )}
+          {area === "cooking" && (
+            <p className='text-orange-700 font-bold'>{areas.cooking}</p>
+          )}
+          {area === "videoEdition" && (
+            <p className='text-fuchsia-700 font-bold'>{areas.videoEdition}</p>
+          )}
+          {area === "graphicDesign" && (
+            <p className='text-indigo-700 font-bold'>{areas.graphicDesign}</p>
+          )}
+          {area === "economy" && (
+            <p className='text-lime-700 font-bold'>{areas.economy}</p>
+          )}
           <p className='font-semibold'>{title}</p>
         </div>
         <div className='font-medium'>
           {hasAnswer ? (
-            <p className="bg-yellow-300 px-3 rounded-full text-white text-sm">
-             provisional
+            <p className='bg-yellow-300 px-3 rounded-full text-white text-sm'>
+              provisional
             </p>
           ) : (
-            <p className={`px-3 rounded-full text-white text-sm ${
-              status === 'active' ? 'bg-green-600' : 'bg-yellow-500'
-            }`}>
-               {status === "resolved" ? 'Resolved' : status === "active" ? 'Active' : 'Estado'}
+            <p
+              className={`px-3 rounded-full text-white text-sm ${
+                status === "active" ? "bg-green-600" : "bg-yellow-500"
+              }`}
+            >
+              {status === "resolved"
+                ? "Resolved"
+                : status === "active"
+                ? "Active"
+                : "Estado"}
             </p>
           )}
         </div>
@@ -57,8 +88,8 @@ function IssueCard({ id, area, title, createdAt, hasAnswer,status }: IssueProps)
         <div className='flex justify-between items-end'>
           <div className='text-xs'>Created at {date}</div>
           <Link href={`/issues/${id}`}>
-            <Button 
-              variant='default' 
+            <Button
+              variant='default'
               className={`text-xs font-bold transition-all duration-200 ${
                 isButtonHovered ? "scale-105" : "scale-100"
               }`}
@@ -71,7 +102,7 @@ function IssueCard({ id, area, title, createdAt, hasAnswer,status }: IssueProps)
         </div>
       </div>
     </li>
-  );
+  )
 }
 
-export default IssueCard;
+export default IssueCard
