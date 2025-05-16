@@ -14,7 +14,7 @@ model Answer {
   content   String
   imageUrl  String        @db.VarChar
   status    answer_status
-  issueId   String        @db.Uuid
+  issueId   String        @db.Uuid  @unique
   userId    String        @db.VarChar(255)
   createdAt DateTime      @default(now()) @db.Timestamptz(6)
   Issue     Issue         @relation(fields: [issueId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Answer_issue_id_fkey")
