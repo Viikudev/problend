@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DIRECT_URL")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -28,11 +28,11 @@ model Issue {
   userId      String       @db.VarChar(255)
   description String
   status      issue_status
-  area        area
   imageUrl    String?      @db.VarChar
   createdAt   DateTime     @default(now()) @db.Timestamptz(6)
   hasAnswer   Boolean      @default(false)
-  Answer      Answer[]
+  area        area
+  Answer      Answer?
   User        User         @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
 }
 
@@ -55,14 +55,16 @@ enum answer_status {
 }
 
 enum area {
-  Programming
-  Cooking
-  Electronics
-  Languages
-  Video_Edition  @map("Video Edition")
-  Accounting
-  Mechanics
-  Graphic_Design @map("Graphic Design")
+  programming
+  mechanics
+  mathematics
+  accounting
+  languages
+  electronics
+  cooking
+  videoEdition
+  graphicDesign
+  economy
 }
 
 enum issue_status {

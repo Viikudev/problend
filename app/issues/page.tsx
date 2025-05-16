@@ -1,9 +1,9 @@
 "use client"
 
+import Image from "next/image"
 import React from "react"
 import Link from "next/link"
 import IssueCard from "../components/IssueCard"
-import IssueForm from "../components/IssueForm"
 import { Button } from "../components/ui/button"
 import { useState, useEffect } from "react"
 import { IssueProps } from "../types/issue"
@@ -16,6 +16,7 @@ function Page() {
     const getIssues = async () => {
       const currentOrigin = window.location.origin
       const response = await axios.get(`${currentOrigin}/api/issues`)
+      console.log(response.data)
       setIssues(response.data)
     }
     getIssues()
@@ -39,8 +40,20 @@ function Page() {
             />
           ))}
         </ul>
-        <Link href='/issueform'>
-          <Button>Create Issue</Button>
+        <Link href='/issueform' className='fixed right-10 bottom-20 '>
+          <Button
+            variant='floating'
+            size='lg'
+            className='flex items-center cursor-pointer'
+          >
+            <Image
+              src='/issue.svg'
+              alt='create issue icon'
+              width={30}
+              height={30}
+            />
+            Create Issue
+          </Button>
         </Link>
       </main>
     </>

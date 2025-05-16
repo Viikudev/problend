@@ -6,19 +6,21 @@ export type IssueProps = {
   imageUrl?: string
   area: keyof typeof areas
   createdAt: Date
-  status:  keyof typeof status
+  status: keyof typeof status
   hasAnswer: boolean
 }
 
 export const areas = {
-  Programming: "Programming",
-  Cooking: "Cooking",
-  Electronics: "Electronics",
-  Languages: "Languages",
-  Video_Edition: "Video Edition",
-  Accounting: "Accounting",
-  Mechanics: "Mechanics",
-  Graphic_Design: "Graphic Design",
+  programming: "Programming",
+  cooking: "Cooking",
+  electronics: "Electronics",
+  languages: "Languages",
+  videoEdition: "Video Edition",
+  accounting: "Accounting",
+  mechanics: "Mechanics",
+  graphicDesign: "Graphic Design",
+  economy: "Economy",
+  mathematics: "Mathematics",
 }
 
 export const status = {
