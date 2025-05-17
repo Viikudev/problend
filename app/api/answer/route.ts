@@ -54,25 +54,3 @@ export async function POST(request: NextRequest) {
   
 }
 
-// Función para obtener todos los "issues"
-export async function GET() {
-  try {
-    // Obtener todos los "Issues" usando Prisma
-    const issues = await prisma.issue.findMany({
-      include: {
-        User: true, // Incluir la información del usuario relacionado
-        Answer: true, // Incluir las respuestas relacionadas
-      },
-    })
-
-    // Devolver una respuesta JSON con todos los "Issues"
-    return NextResponse.json(issues, { status: 200 })
-  } catch (error: any) {
-    // Manejar errores
-    console.error("Error al obtener los ISSUES:", error)
-    return NextResponse.json(
-      { error: "Error al obtener los ISSUES: " + error.message },
-      { status: 500 }
-    )
-  }
-}

@@ -1,15 +1,10 @@
 "use client"
 
-import { Button } from "./ui/button"
-import Link from "next/link"
-import { IssueProps, areas } from "../types/issue"
 import { useState } from "react"
-
-import {
-  SignedIn,
-  SignInButton,
-  SignedOut,
-} from "@clerk/nextjs"
+import Link from "next/link"
+import { Button } from "./ui/button"
+import { IssueProps, areas } from "../types/issue"
+import { SignedIn, SignInButton, SignedOut } from "@clerk/nextjs"
 
 function IssueCard({
   id,
@@ -22,6 +17,21 @@ function IssueCard({
   const [isHovered, setIsHovered] = useState(false)
   const [isButtonHovered, setIsButtonHovered] = useState(false)
   const date = new Date(createdAt).toLocaleDateString()
+
+  const areaLabel = areas[area]
+  const areaColorMap: Record<string, string> = {
+    programming: "text-blue-700",
+    mechanics: "text-gray-700",
+    mathematics: "text-cyan-700",
+    accounting: "text-green-700",
+    languages: "text-blue-700",
+    electronics: "text-blue-700",
+    cooking: "text-orange-700",
+    videoEdition: "text-fuchsia-700",
+    graphicDesign: "text-indigo-700",
+    economy: "text-lime-700",
+    other: "text-zinc-700",
+  }
 
   return (
     <li
@@ -37,36 +47,9 @@ function IssueCard({
     >
       <div className='flex justify-between items-start p-2 pb-0'>
         <div>
-          {area === "programming" && (
-            <p className='text-blue-700 font-bold'>{areas.programming}</p>
-          )}
-          {area === "mechanics" && (
-            <p className='text-gray-700 font-bold'>{areas.mechanics}</p>
-          )}
-          {area === "mathematics" && (
-            <p className='text-cyan-700 font-bold'>{areas.mathematics}</p>
-          )}
-          {area === "accounting" && (
-            <p className='text-green-700 font-bold'>{areas.accounting}</p>
-          )}
-          {area === "languages" && (
-            <p className='text-blue-700 font-bold'>{areas.languages}</p>
-          )}
-          {area === "electronics" && (
-            <p className='text-blue-700 font-bold'>{areas.electronics}</p>
-          )}
-          {area === "cooking" && (
-            <p className='text-orange-700 font-bold'>{areas.cooking}</p>
-          )}
-          {area === "videoEdition" && (
-            <p className='text-fuchsia-700 font-bold'>{areas.videoEdition}</p>
-          )}
-          {area === "graphicDesign" && (
-            <p className='text-indigo-700 font-bold'>{areas.graphicDesign}</p>
-          )}
-          {area === "economy" && (
-            <p className='text-lime-700 font-bold'>{areas.economy}</p>
-          )}
+          <p className={`${areaColorMap[area] || "text-black"} font-bold`}>
+            {areaLabel}
+          </p>
           <p className='font-semibold'>{title}</p>
         </div>
         <div className='font-medium'>
@@ -89,14 +72,11 @@ function IssueCard({
           )}
         </div>
       </div>
-      <div className='flex flex-col gap-10 py-2 px-2'>
-        
-        <div className='flex flex-col justify-between'></div>
-        <div className='flex justify-between items-end'>
 
-          
-            <div className='text-xs'>Created at {date}</div>
-            <SignedIn>
+      <div className='flex flex-col gap-10 py-2 px-2'>
+        <div className='flex justify-between items-end'>
+          <div className='text-xs'>Created at {date}</div>
+          <SignedIn>
             <Link href={`/issues/${id}`}>
               <Button
                 variant='default'
@@ -106,15 +86,12 @@ function IssueCard({
                 onMouseEnter={() => setIsButtonHovered(true)}
                 onMouseLeave={() => setIsButtonHovered(false)}
               >
-                {hasAnswer ? "See Answer" : "Write Answer"}
+                {status === "available" ? "Write Answer" : "See Answer"}
               </Button>
             </Link>
           </SignedIn>
-
-
-           <SignedOut>
+          <SignedOut>
             <SignInButton mode='modal'>
-
               <Button
                 variant='default'
                 className={`text-xs font-bold transition-all duration-200 ${
@@ -123,15 +100,13 @@ function IssueCard({
                 onMouseEnter={() => setIsButtonHovered(true)}
                 onMouseLeave={() => setIsButtonHovered(false)}
               >
-                {hasAnswer ? "See Answer" : "Write Answer"}
+                {status === "available" ? "Write Answer" : "See Answer"}
+
               </Button>
             </SignInButton>
-           </SignedOut>
-
+          </SignedOut>
         </div>
-        
       </div>
-      
     </li>
   )
 }

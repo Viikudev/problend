@@ -18,18 +18,17 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
   const [isGlowing, setIsGlowing] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [audio, setAudio] = useState<{
-    hover: HTMLAudioElement[];
+    hover: HTMLAudioElement;
     click: HTMLAudioElement;
   } | null>(null);
 
   // Inicializar y precargar audios
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const hoverSounds = [
-        new Audio(
+
+      const hoverSounds =  new Audio(
           "https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"
-        ),
-      ];
+        );
 
       // Sonido de click (más nítido)
       const clickSound = new Audio(
@@ -37,10 +36,9 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
       );
 
       // Precargar audios
-      hoverSounds.forEach((sound) => {
-        sound.volume = 0.2;
-        sound.preload = "auto";
-      });
+      hoverSounds.volume = 0.2;
+      hoverSounds.preload = "auto";
+      
       clickSound.volume = 0.3;
       clickSound.preload = "auto";
 
@@ -51,7 +49,7 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
 
       // Limpieza al desmontar
       return () => {
-        hoverSounds.forEach((sound) => (sound.src = ""));
+        hoverSounds.src = "";
         clickSound.src = "";
       };
     }
@@ -70,10 +68,8 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
   // Reproducir sonido de hover aleatorio (para letras individuales)
   const playHoverSound = useCallback(() => {
     if (!audio?.hover) return;
-    const randomSound =
-      audio.hover[Math.floor(Math.random() * audio.hover.length)];
-    randomSound.currentTime = 0;
-    randomSound.play().catch(() => {});
+    audio.hover.currentTime = 0;
+    audio.hover.play().catch(() => {});
   }, [audio]);
 
   // Reproducir sonido de click (para el botón completo)
