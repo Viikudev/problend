@@ -1,17 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import IssueForm from "@/app/components/IssueForm";
 
-export default function IssueDetail() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace('/issues');
-  }, [router]); 
+export default function IssueFormPage() {
   return (
-    <div>
-      <p>Redirigiendo a la página principal de issues...</p>
+    <div className="flex justify-center items-center min-h-[75vh]">
+      <div className="border p-4 max-md:w-md md:w-lg">
+        <IssueForm />
+      </div>
     </div>
   );
 }

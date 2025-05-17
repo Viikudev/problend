@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import React, { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface GlowingLogoProps {
   className?: string;
@@ -12,7 +12,7 @@ interface GlowingLogoProps {
 
 export const GlowingLogo: React.FC<GlowingLogoProps> = ({
   className,
-  glowColor = 'rgba(255, 255, 255, 0.8)',
+  glowColor = "rgba(255, 255, 255, 0.8)",
   glowInterval = 3000,
 }) => {
   const [isGlowing, setIsGlowing] = useState(false);
@@ -24,21 +24,25 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
 
   // Inicializar y precargar audios
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const hoverSounds = [
-        new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3'), 
+        new Audio(
+          "https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"
+        ),
       ];
 
       // Sonido de click (más nítido)
-      const clickSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2569/2569-preview.mp3');
+      const clickSound = new Audio(
+        "https://assets.mixkit.co/active_storage/sfx/2569/2569-preview.mp3"
+      );
 
       // Precargar audios
       hoverSounds.forEach((sound) => {
         sound.volume = 0.2;
-        sound.preload = 'auto';
+        sound.preload = "auto";
       });
       clickSound.volume = 0.3;
-      clickSound.preload = 'auto';
+      clickSound.preload = "auto";
 
       setAudio({
         hover: hoverSounds,
@@ -47,8 +51,8 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
 
       // Limpieza al desmontar
       return () => {
-        hoverSounds.forEach((sound) => (sound.src = ''));
-        clickSound.src = '';
+        hoverSounds.forEach((sound) => (sound.src = ""));
+        clickSound.src = "";
       };
     }
   }, []);
@@ -66,7 +70,8 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
   // Reproducir sonido de hover aleatorio (para letras individuales)
   const playHoverSound = useCallback(() => {
     if (!audio?.hover) return;
-    const randomSound = audio.hover[Math.floor(Math.random() * audio.hover.length)];
+    const randomSound =
+      audio.hover[Math.floor(Math.random() * audio.hover.length)];
     randomSound.currentTime = 0;
     randomSound.play().catch(() => {});
   }, [audio]);
@@ -78,11 +83,11 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
     audio.click.play().catch(() => {});
   }, [audio]);
 
-  const letters = [...'pro', ...'blen¿'];
+  const letters = [..."pro", ..."blen¿"];
 
   return (
-    <motion.div 
-      className={cn('relative cursor-pointer', className)}
+    <motion.div
+      className={cn("relative cursor-pointer", className)}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={playClickSound} // Click en el contenedor principal
@@ -90,25 +95,25 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
       aria-label="Problen¿ logo - clickable"
       tabIndex={0}
     >
-      <div 
+      <div
         className={cn(
-          'absolute inset-0 transition-opacity duration-1000 ease-in-out rounded-lg',
-          isGlowing ? 'opacity-100' : 'opacity-0'
+          "absolute inset-0 transition-opacity duration-1000 ease-in-out",
+          isGlowing ? "opacity-100" : "opacity-0"
         )}
         style={{
           boxShadow: `0 0 20px 2px ${glowColor}`,
-          filter: 'blur(10px)',
+          filter: "blur(10px)",
         }}
       />
-      <div className="px-4 py-2 border-2 border-black rounded-lg bg-white shadow-lg hover:shadow-xl transition-shadow">
+      <div className="px-4 py-2">
         <div className="text-2xl font-bold tracking-tight flex items-center justify-center">
           {letters.map((letter, index) => (
             <motion.span
               key={index}
               className={cn(
-                'cursor-pointer transition-colors duration-200',
-                index >= 3 ? 'italic' : '',
-                hoveredIndex === index ? 'text-blue-600' : ''
+                "cursor-pointer transition-colors duration-200",
+                index >= 3 ? "italic" : "",
+                hoveredIndex === index ? "text-blue-600" : ""
               )}
               onHoverStart={() => {
                 setHoveredIndex(index);
@@ -125,15 +130,16 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
               transition={{
                 type: "spring",
                 stiffness: 500,
-                damping: 15
+                damping: 15,
               }}
               style={{
-                display: 'inline-block',
-                transformOrigin: 'center',
-                transformStyle: 'preserve-3d',
-                textShadow: hoveredIndex === index ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
+                display: "inline-block",
+                transformOrigin: "center",
+                transformStyle: "preserve-3d",
+                textShadow:
+                  hoveredIndex === index ? "0 2px 4px rgba(0,0,0,0.1)" : "none",
               }}
-              role="presentation" // Evita conflicto con el botón padre
+              role="presentation"
               tabIndex={-1}
             >
               {letter}
