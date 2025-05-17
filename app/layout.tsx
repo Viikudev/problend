@@ -1,4 +1,6 @@
 import { type Metadata } from "next";
+import Link from "next/link";
+import { GlowingLogo } from "@/app/components/Logo";
 import {
   ClerkProvider,
   SignInButton,
@@ -36,20 +38,31 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased `}
         >
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignInButton mode="modal" />
-              <SignUpButton mode="modal" />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+          <header className="flex justify-between items-center p-4 gap-4 h-16">
+            <Link href="/">
+              <GlowingLogo className="w-full" />
+            </Link>
+            <nav>
+              <ul className="flex gap-4">
+                <Link href="/issues" className="hover:underline">
+                  <li>Application</li>
+                </Link>
+              </ul>
+            </nav>
+            <div className="flex gap-4">
+              <SignedOut>
+                <SignInButton mode="modal" />
+                <SignUpButton mode="modal" />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
           </header>
           {modal}
           {children}
-          <div id="modal-root" />
         </body>
       </html>
     </ClerkProvider>

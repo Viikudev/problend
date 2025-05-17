@@ -4,19 +4,17 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Answer {
   id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content   String
-  imageUrl  String        @db.VarChar
-  status    answer_status
-  issueId   String        @db.Uuid
-  userId      String       @db.VarChar(255)
+  imageUrl  String?        @db.VarChar
+  issueId   String        @db.Uuid  @unique
+  userId    String        @db.VarChar(255)
   createdAt DateTime      @default(now()) @db.Timestamptz(6)
   Issue     Issue         @relation(fields: [issueId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Answer_issue_id_fkey")
   User      User          @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Answer_user_id_fkey")
@@ -28,12 +26,11 @@ model Issue {
   title       String       @db.VarChar
   userId      String       @db.VarChar(255)
   description String
-  status      issue_status @default(active)
-  area        area
+  status      status
   imageUrl    String?      @db.VarChar
   createdAt   DateTime     @default(now()) @db.Timestamptz(6)
-  hasAnswer   Boolean      @default(false)
-  Answer      Answer[]
+  area        area
+  Answer      Answer?
   User        User         @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
 }
 
@@ -49,24 +46,22 @@ model User {
   Issue     Issue[]
 }
 
-enum answer_status {
-  pending
-  accepted
-  rejected
-}
 
 enum area {
-  Programming
-  Cooking
-  Electronics
-  Languages
-  Video_Edition  @map("Video Edition")
-  Accounting
-  Mechanics
-  Graphic_Design @map("Graphic Design")
+  programming
+  mechanics
+  mathematics
+  accounting
+  languages
+  electronics
+  cooking
+  videoEdition
+  graphicDesign
+  economy
 }
 
-enum issue_status {
-  active
+enum status {
+  available
   resolved
+  pending
 }

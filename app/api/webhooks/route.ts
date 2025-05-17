@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   // Verify payload with headers
   try {
-    evt = wh.verify(body, {
+    evt = await wh.verify(body, {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,

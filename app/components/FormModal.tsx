@@ -13,8 +13,8 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
       <DialogOverlay>
-        <DialogContent className='flex flex-col w-3/5 h-100'>
-          <DialogTitle className='sr-only'>Modal</DialogTitle>
+        <DialogContent className='flex flex-col max-w-120'>
+          <DialogTitle>Create New Issue</DialogTitle>
           <div className='text-neutral-600 text-sm'>{children}</div>
         </DialogContent>
       </DialogOverlay>

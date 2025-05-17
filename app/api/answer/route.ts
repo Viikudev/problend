@@ -2,42 +2,56 @@ import { PrismaClient } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
 const prisma = new PrismaClient()
 
-// Función para crear un nuevo "issue"
+// Función para crear un nuevo "answer"
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     console.log(body)
     // Validar los datos de entrada
     if (
-      !body.title ||
-      !body.status ||
-      !body.area ||
-      !body.description ||
-      !body.userId
+      !body.issueId ||
+      !body.userId ||
+      !body.content
     ) {
       return NextResponse.json(
         { error: "Faltan campos obligatorios" },
         { status: 400 }
       )
     }
-    // Crear el nuevo "Issue" usando Prisma
-    const newIssue = await prisma.issue.create({
-      data: {
-        title: body.title,
-        userId: body.userId,
-        description: body.description,
-        status: body.status,
-        area: body.area,
-        imageUrl: body.imageUrl, // Permitir valores nulos
-      },
-    })
+      const answer= await prisma.answer.findUnique({
+        where: {
+           issueId: body.issueId,
+        },
+      })
+      if(!answer){    
+        const newAnswer = await prisma.answer.create({
+        data: {
+            userId: body.userId,
+            issueId: body.issueId,
+            content: body.content,
+            imageUrl: body.imageUrl,
+        },
+        });
+          const updateIssue = await prisma.issue.update({
+          where: {
+             id: body.issueId,
+          },
+          data: {
+            status: 'pending',
+          },
+        })
+        return NextResponse.json(newAnswer, { status: 201 })
+      }else{return NextResponse.json({ error: "answer resolved" }, { status: 500 })}
+
+
     // Devolver una respuesta JSON con el nuevo "Issue" creado
-    return NextResponse.json(newIssue, { status: 201 })
+   
   } catch (error) {
     // Manejar errores, especialmente errores de validación o de base de datos
     console.error("Error al crear ISSUE:", error)
-    return NextResponse.json({ error: "Error al crear ISSUE" }, { status: 500 })
+    return NextResponse.json({ error: "Error al crear ISSUE o ISSUE" }, { status: 500 })
   }
+  
 }
 
 // Función para obtener todos los "issues"
