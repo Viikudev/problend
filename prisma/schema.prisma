@@ -12,7 +12,7 @@ datasource db {
 model Answer {
   id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content   String
-  imageUrl  String        @db.VarChar
+  imageUrl  String?        @db.VarChar
   issueId   String        @db.Uuid  @unique
   userId    String        @db.VarChar(255)
   createdAt DateTime      @default(now()) @db.Timestamptz(6)

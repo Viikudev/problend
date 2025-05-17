@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 export default function IssueDetail() {
   const router = useRouter();
 
-  useEffect(() => {
-    router.replace('/issues');
-  }, [router]); 
+ // useEffect(() => {
+//    router.replace('/issues');
+ // }, [router]); 
   return (
     <div>
       <p>Redirigiendo a la página principal de issues...</p>

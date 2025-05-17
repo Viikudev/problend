@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
     // Validar los datos de entrada
     if (
       !body.issueId ||
-      !body.status ||
       !body.userId ||
       !body.content
     ) {
@@ -19,31 +18,40 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-
-    const newAnswer = await prisma.answer.upsert({
+      const answer= await prisma.answer.findUnique({
         where: {
-            issueId: body.issueId
+           issueId: body.issueId,
         },
-        create: {
+      })
+      if(!answer){    
+        const newAnswer = await prisma.answer.create({
+        data: {
             userId: body.userId,
             issueId: body.issueId,
-            status: body.status,
             content: body.content,
             imageUrl: body.imageUrl,
         },
-        update: {
-            status: body.status,
-            content: body.content,
-            imageUrl: body.imageUrl,
-        }
         });
+          const updateIssue = await prisma.issue.update({
+          where: {
+             id: body.issueId,
+          },
+          data: {
+            status: 'pending',
+          },
+        })
+        return NextResponse.json(newAnswer, { status: 201 })
+      }else{return NextResponse.json({ error: "answer resolved" }, { status: 500 })}
+
+
     // Devolver una respuesta JSON con el nuevo "Issue" creado
-    return NextResponse.json(newAnswer, { status: 201 })
+   
   } catch (error) {
     // Manejar errores, especialmente errores de validación o de base de datos
     console.error("Error al crear ISSUE:", error)
-    return NextResponse.json({ error: "Error al crear ISSUE o ISSUE ya fue respondida" }, { status: 500 })
+    return NextResponse.json({ error: "Error al crear ISSUE o ISSUE" }, { status: 500 })
   }
+  
 }
 
 // Función para obtener todos los "issues"
