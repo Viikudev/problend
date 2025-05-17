@@ -13,7 +13,6 @@ model Answer {
   id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content   String
   imageUrl  String        @db.VarChar
-  status    answer_status
   issueId   String        @db.Uuid  @unique
   userId    String        @db.VarChar(255)
   createdAt DateTime      @default(now()) @db.Timestamptz(6)
@@ -27,10 +26,9 @@ model Issue {
   title       String       @db.VarChar
   userId      String       @db.VarChar(255)
   description String
-  status      issue_status
+  status      status
   imageUrl    String?      @db.VarChar
   createdAt   DateTime     @default(now()) @db.Timestamptz(6)
-  hasAnswer   Boolean      @default(false)
   area        area
   Answer      Answer?
   User        User         @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
@@ -48,11 +46,6 @@ model User {
   Issue     Issue[]
 }
 
-enum answer_status {
-  pending
-  accepted
-  rejected
-}
 
 enum area {
   programming
@@ -67,7 +60,8 @@ enum area {
   economy
 }
 
-enum issue_status {
-  active
+enum status {
+  available
   resolved
+  pending
 }

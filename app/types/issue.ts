@@ -25,5 +25,6 @@ export const areas = {
 
 export const status = {
   resolved: "resolved",
-  active: "active",
+  available: "available",
+  pending: "pending",
 }

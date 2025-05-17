@@ -77,14 +77,14 @@ function IssueCard({
           ) : (
             <p
               className={`px-3 rounded-full text-white text-sm ${
-                status === "active" ? "bg-green-600" : "bg-yellow-500"
+                status === "available" ? "bg-green-600" : "bg-yellow-500"
               }`}
             >
               {status === "resolved"
                 ? "Resolved"
-                : status === "active"
-                ? "Active"
-                : "Estado"}
+                : status === "available"
+                ? "available"
+                : "pending"}
             </p>
           )}
         </div>

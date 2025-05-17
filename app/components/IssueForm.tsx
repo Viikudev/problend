@@ -49,7 +49,7 @@ export default function IssueForm() {
       try {
         const newIssue = {
           ...values,
-          status: "active",
+          status: "available",
           userId: user.id,
         }
         await axios.post("/api/issues", newIssue)
