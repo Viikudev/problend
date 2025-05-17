@@ -1,17 +1,50 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams } from "next/navigation";
+import { Button } from "@/app/components/ui/button";
+import { Textarea } from "@/app/components/ui/textarea";
+// import { Label } from "@/app/components/ui/label"
+import { useEffect, useState } from "react";
+import { IssueProps } from "@/app/types/issue";
+import axios from "axios";
 
-export default function IssueDetail() {
-  const router = useRouter();
+export default function Issue() {
+  const [issue, setIssue] = useState<IssueProps | null>(null);
 
- // useEffect(() => {
- //   router.replace('/issues');
-  //}, [router]); 
+  useEffect(() => {
+    const fetchIssueData = async () => {
+      const currentOrigin = window.location.origin;
+      const response = await axios.get(
+        `${currentOrigin}/api/issues/${params.issueId}`
+      );
+      setIssue(response.data);
+    };
+    fetchIssueData();
+  }, []);
+  const params = useParams();
+
   return (
-    <div>
-      <p>Redirigiendo a la página principal de issues...</p>
+    <div className="flex justify-center items-center min-h-[75vh] p-4">
+      <div className="flex gap-4 w-full max-w-5xl">
+        <div className="flex flex-col w-3/5 md:w-1/2 max-h-80 overflow-y-auto pr-2">
+          {/* <h2 className='text-lg font-semibold leading-none'>Modal</h2> */}
+          {issue && (
+            <div>
+              <h2 className="text-lg font-bold">{issue.title}</h2>
+              <p>{issue.description}</p>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col gap-2 max-h-90 overflow-y-auto w-1/2">
+          {/* <Label htmlFor='text'>Your Answer</Label> */}
+          <Textarea
+            placeholder="Write your answer here..."
+            id="text"
+            className="resize-none h-90"
+          />
+          <Button>Send Answer</Button>
+        </div>
+      </div>
     </div>
   );
 }
