@@ -1,113 +1,106 @@
-"use client"
+"use client";
 
-import { useUser } from "@clerk/clerk-react"
-import Image from "next/image"
-import React, { useState, useEffect } from "react"
-import Link from "next/link"
-import IssueCard from "../components/IssueCard"
-import { Button } from "../components/ui/button"
-import { IssueProps } from "../types/issue"
-import axios from "axios"
-import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu"
-import { motion, AnimatePresence } from "framer-motion"
+import { useUser } from "@clerk/clerk-react";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import IssueCard from "../components/IssueCard";
+import { Button } from "../components/ui/button";
+import { IssueProps } from "../types/issue";
+import axios from "axios";
+import { ComboboxDemo, ComboboxDemoArea } from "../components/FilterMenu";
+import { motion, AnimatePresence } from "framer-motion";
 
-
-
-import {
-  SignedIn,
-  SignInButton,
-  SignedOut,
-} from "@clerk/nextjs"
+import { SignedIn, SignInButton, SignedOut } from "@clerk/nextjs";
 
 function Page() {
-  const {  user } = useUser()
+  const { user } = useUser();
 
-  const [issues, setIssues] = useState<IssueProps[]>([])
-  const [statusFilter, setStatusFilter] = useState<string>("all")
-  const [areaFilter, setAreaFilter] = useState<string>("")
+  const [issues, setIssues] = useState<IssueProps[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [areaFilter, setAreaFilter] = useState<string>("");
 
   useEffect(() => {
     const getIssues = async () => {
-      const currentOrigin = window.location.origin
-      const response = await axios.get(`${currentOrigin}/api/issues`)
-      setIssues(response.data)
-    }
-    getIssues()
-  }, [])
+      const currentOrigin = window.location.origin;
+      const response = await axios.get(`${currentOrigin}/api/issues`);
+      setIssues(response.data);
+    };
+    getIssues();
+  }, []);
 
   const filteredIssues = issues.filter((issue) => {
     // Filtrar por estado
-    let statusMatch = true
+    let statusMatch = true;
     if (statusFilter === "all") {
-      statusMatch = true
+      statusMatch = true;
     } else if (statusFilter === "active") {
-      statusMatch = issue.status === "available"
+      statusMatch = issue.status === "available";
     } else if (statusFilter === "resolved") {
-     statusMatch = issue.status === "resolved" || issue.status === "pending";
+      statusMatch = issue.status === "resolved" || issue.status === "pending";
     } else if (statusFilter === "myCards") {
-      statusMatch = user ? issue.userId === user.id : false
+      statusMatch = user ? issue.userId === user.id : false;
     }
 
     // Filtrar por área
-    const areaMatch = !areaFilter || issue.area === areaFilter
+    const areaMatch = !areaFilter || issue.area === areaFilter;
 
-    return statusMatch && areaMatch
-  })
+    return statusMatch && areaMatch;
+  });
 
   return (
     <>
-      <main className='px-10'>
-        <div className="my-2 mx-4 space-y-2">
+      <main className="flex flex-col gap-6 px-10">
+        <div className="flex gap-2 space-y-2">
           <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
           <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
           <Button
-          variant="outline"
-          onClick={() => {
-            setStatusFilter("")
-            setAreaFilter("")
-          }}
-        >
-
-          clear filters
-        </Button>
+            variant="outline"
+            onClick={() => {
+              setStatusFilter("");
+              setAreaFilter("");
+            }}
+          >
+            clear filters
+          </Button>
         </div>
 
-        <ul className='grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center'>
-      <AnimatePresence mode="wait">
-        {filteredIssues.map((issue) => (
-          <motion.div
-            key={issue.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          >
-            <IssueCard
-              id={issue.id}
-              title={issue.title}
-              description={issue.description}
-              area={issue.area}
-              userId={issue.userId}
-              createdAt={issue.createdAt}
-              status={issue.status}
-              hasAnswer={issue.hasAnswer}
-            />
-          </motion.div>
-        ))}
-      </AnimatePresence>
+        <ul className="grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center">
+          <AnimatePresence mode="wait">
+            {filteredIssues.map((issue) => (
+              <motion.div
+                key={issue.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                <IssueCard
+                  id={issue.id}
+                  title={issue.title}
+                  description={issue.description}
+                  area={issue.area}
+                  userId={issue.userId}
+                  createdAt={issue.createdAt}
+                  status={issue.status}
+                  hasAnswer={issue.hasAnswer}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </ul>
 
-        <div className='fixed right-10 bottom-20'>
+        <div className="fixed right-10 bottom-20">
           <SignedIn>
-            <Link href='/issueform'>
+            <Link href="/issueform">
               <Button
-                variant='floating'
-                size='lg'
-                className='flex items-center cursor-pointer'
+                variant="floating"
+                size="lg"
+                className="flex items-center cursor-pointer"
               >
                 <Image
-                  src='/issue.svg'
-                  alt='create issue icon'
+                  src="/issue.svg"
+                  alt="create issue icon"
                   width={30}
                   height={30}
                 />
@@ -117,15 +110,15 @@ function Page() {
           </SignedIn>
 
           <SignedOut>
-            <SignInButton mode='modal'>
+            <SignInButton mode="modal">
               <Button
-                variant='floating'
-                size='lg'
-                className='flex items-center cursor-pointer'
+                variant="floating"
+                size="lg"
+                className="flex items-center cursor-pointer"
               >
                 <Image
-                  src='/issue.svg'
-                  alt='create issue icon'
+                  src="/issue.svg"
+                  alt="create issue icon"
                   width={30}
                   height={30}
                 />
@@ -136,7 +129,7 @@ function Page() {
         </div>
       </main>
     </>
-  )
+  );
 }
 
-export default Page
+export default Page;
