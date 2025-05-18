@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import IssueCard from "../components/IssueCard";
 import { Button } from "../components/ui/button";
+import { Skeleton } from "../components/ui/skeleton";
 import { IssueProps } from "../types/issue";
 import axios from "axios";
 import { ComboboxDemo, ComboboxDemoArea } from "../components/FilterMenu";
@@ -48,11 +49,100 @@ function Page() {
     return statusMatch && areaMatch;
   });
 
+  if (issues.length === 0) {
+    return (
+      <main className="flex flex-col gap-10 px-10">
+        <div className="flex flex-wrap justify-between items-center gap-6">
+          <div className="flex flex-wrap gap-4">
+            <Skeleton className="h-8 w-50 rounded-md" />
+            <Skeleton className="h-8 w-50 rounded-md" />
+            <Skeleton className="h-8 w-30 rounded-md" />
+          </div>
+          <div>
+            <Skeleton className="h-12 w-30 rounded-md" />
+          </div>
+        </div>
+        <div className="grid gap-10 xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))]">
+          <div className="flex flex-col space-y-3 gap-2  border p-4">
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-40 " />
+              <Skeleton className="h-4 w-25 rounded-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="flex justify-between items-end space-y-2">
+              <Skeleton className="h-4 w-30" />
+              <Skeleton className="h-10 w-[100px] rounded-md" />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-3 gap-2 border p-4">
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-40 " />
+              <Skeleton className="h-4 w-25 rounded-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 " />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="flex justify-between items-end space-y-2">
+              <Skeleton className="h-4 w-30" />
+              <Skeleton className="h-10 w-[100px] rounded-md" />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-3 gap-2  border p-4">
+            <div className="flex justify-between ">
+              <Skeleton className="h-4 w-40 " />
+              <Skeleton className="h-4 w-25 rounded-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 " />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="flex justify-between items-end space-y-2">
+              <Skeleton className="h-4 w-30" />
+              <Skeleton className="h-10 w-[100px] rounded-md" />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-3 gap-2  border p-4">
+            <div className="flex justify-between ">
+              <Skeleton className="h-4 w-40 " />
+              <Skeleton className="h-4 w-25 rounded-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 " />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="flex justify-between items-end space-y-2">
+              <Skeleton className="h-4 w-30" />
+              <Skeleton className="h-10 w-[100px] rounded-md" />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-3 gap-2  border p-4">
+            <div className="flex justify-between ">
+              <Skeleton className="h-4 w-40 " />
+              <Skeleton className="h-4 w-25 rounded-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 " />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="flex justify-between items-end space-y-2">
+              <Skeleton className="h-4 w-30" />
+              <Skeleton className="h-10 w-[100px] rounded-md" />
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <>
       <main className="flex flex-col gap-10 px-10">
-        <div className="flex flex-wrap gap-2 space-y-2 items-center justify-between">
-          <div className="flex gap-4 m-0">
+        <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
+          <div className="flex flex-wrap gap-4 m-0">
             <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
             <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
             <Button
