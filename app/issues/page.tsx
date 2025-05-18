@@ -8,7 +8,7 @@ import IssueCard from "../components/IssueCard";
 import { Button } from "../components/ui/button";
 import { IssueProps } from "../types/issue";
 import axios from "axios";
-import { ComboboxDemo, ComboboxDemoArea } from "../components/FilterMenu";
+import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertDemo } from "../components/alert"
 import { useSearchParams } from "next/navigation"
@@ -133,8 +133,12 @@ function Page() {
           
         </div>
       </main>
-      {message && <AlertDemo message={message} />}
+      <div className="fixed bottom-4 left-4 w-64">
+        {message && <AlertDemo message={message} />}
+      </div>
+
     </>
+    
   );
 }
 

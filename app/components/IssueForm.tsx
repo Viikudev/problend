@@ -59,9 +59,11 @@ if (user) {
       
 
     if (response.status === 200 || response.status === 201) {
-      const message = encodeURIComponent("Issue creada correctamente");
+      const message = encodeURIComponent("issue created successfully");
       window.location.assign(`/issues?message=${message}`);
     } else {
+      const message = encodeURIComponent("Issue creation failed");
+      window.location.assign(`/issues?message=${message}`);
       console.error("Issue creation failed:", response);
     }
   } catch (error) {
@@ -132,9 +134,8 @@ if (user) {
             </FormItem>
           )}
         />
-          
+          <Button type="submit"> Create Issue </Button>
       </form>
-      <Button type="submit"> Create Issue </Button>
     </Form>
     
   )
