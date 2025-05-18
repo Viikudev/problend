@@ -52,6 +52,8 @@ export default function Issue() {
           content: textareaValue,
         };
         await axios.post("/api/answer", newAnswer);
+        const message = encodeURIComponent("answer created successfully");
+         window.location.assign(`/issues?message=${message}`);
       } catch (error) {
         console.log("Error creating answer:", error);
       }

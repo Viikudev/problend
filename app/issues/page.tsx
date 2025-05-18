@@ -132,47 +132,8 @@ function Page() {
             ))}
           </AnimatePresence>
         </ul>
-
-        <div className="fixed right-10 bottom-20">
-          <SignedIn>
-            <Link href="/issueform">
-              <Button
-                variant="floating"
-                size="lg"
-                className="flex items-center cursor-pointer"
-              >
-                <Image
-                  src="/issue.svg"
-                  alt="create issue icon"
-                  width={30}
-                  height={30}
-                />
-                Create Issue
-              </Button>
-            </Link>
-          </SignedIn>
-
-          <SignedOut>
-            <SignInButton mode="modal">
-              <Button
-                variant="floating"
-                size="lg"
-                className="flex items-center cursor-pointer"
-              >
-                <Image
-                  src="/issue.svg"
-                  alt="create issue icon"
-                  width={30}
-                  height={30}
-                />
-                Create Issue
-              </Button>
-            </SignInButton>
-          </SignedOut>
-          
-        </div>
       </main>
-      <div className="fixed bottom-4 left-4 w-64">
+      <div className="fixed bottom-10 right-10 w-64">
         {message && <AlertDemo message={message} />}
       </div>
 
