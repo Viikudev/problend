@@ -54,19 +54,58 @@ function Page() {
 
   return (
     <>
-      <main className="flex flex-col gap-6 px-10">
-        <div className="flex flex-wrap gap-2 space-y-2">
-          <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
-          <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
-          <Button
-            variant="outline"
-            onClick={() => {
-              setStatusFilter("");
-              setAreaFilter("");
-            }}
-          >
-            clear filters
-          </Button>
+      <main className="flex flex-col gap-10 px-10">
+        <div className="flex flex-wrap gap-2 space-y-2 items-center justify-between">
+          <div className="flex gap-4 m-0">
+            <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
+            <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
+            <Button
+              variant="outline"
+              onClick={() => {
+                setStatusFilter("");
+                setAreaFilter("");
+              }}
+            >
+              clear filters
+            </Button>
+          </div>
+          <div>
+            <SignedIn>
+              <Link href="/issueform">
+                <Button
+                  variant="floating"
+                  size="sm"
+                  className="flex items-center cursor-pointer"
+                >
+                  <Image
+                    src="/issue.svg"
+                    alt="create issue icon"
+                    width={20}
+                    height={20}
+                  />
+                  Create Issue
+                </Button>
+              </Link>
+            </SignedIn>
+
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button
+                  variant="floating"
+                  size="sm"
+                  className="flex items-center cursor-pointer"
+                >
+                  <Image
+                    src="/issue.svg"
+                    alt="create issue icon"
+                    width={20}
+                    height={20}
+                  />
+                  Create Issue
+                </Button>
+              </SignInButton>
+            </SignedOut>
+          </div>
         </div>
 
         <ul className="grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center">

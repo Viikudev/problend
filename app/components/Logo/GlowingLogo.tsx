@@ -25,10 +25,9 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
   // Inicializar y precargar audios
   useEffect(() => {
     if (typeof window !== "undefined") {
-
-      const hoverSounds =  new Audio(
-          "https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"
-        );
+      const hoverSounds = new Audio(
+        "https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"
+      );
 
       // Sonido de click (más nítido)
       const clickSound = new Audio(
@@ -38,7 +37,7 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
       // Precargar audios
       hoverSounds.volume = 0.2;
       hoverSounds.preload = "auto";
-      
+
       clickSound.volume = 0.3;
       clickSound.preload = "auto";
 
@@ -109,7 +108,7 @@ export const GlowingLogo: React.FC<GlowingLogoProps> = ({
               className={cn(
                 "cursor-pointer transition-colors duration-200",
                 index >= 3 ? "italic" : "",
-                hoveredIndex === index ? "text-blue-600" : ""
+                hoveredIndex === index ? "text-orange-600" : ""
               )}
               onHoverStart={() => {
                 setHoveredIndex(index);
