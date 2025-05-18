@@ -34,7 +34,7 @@ function IssueCard({
 
   return (
     <li
-      className={`flex flex-col justify-between border transition-all duration-300 `}
+      className={`flex flex-col h-35 justify-between border transition-all duration-300 `}
     >
       <div className="flex justify-between items-start p-2 pb-0">
         <div>
