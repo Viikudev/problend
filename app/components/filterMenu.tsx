@@ -92,7 +92,6 @@ export function ComboboxDemo({ value, onSelect }: ComboboxProps) {
   )
 }
 
-// FILTRO DE ÁREA
 export function ComboboxDemoArea({ value, onSelect }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
 

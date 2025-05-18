@@ -10,8 +10,8 @@ import { IssueProps } from "../types/issue"
 import axios from "axios"
 import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu"
 import { motion, AnimatePresence } from "framer-motion"
-
-
+import { AlertDemo } from "../components/alert"
+import { useSearchParams } from "next/navigation"
 
 import {
   SignedIn,
@@ -25,6 +25,8 @@ function Page() {
   const [issues, setIssues] = useState<IssueProps[]>([])
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [areaFilter, setAreaFilter] = useState<string>("")
+  const searchParams = useSearchParams()
+  const message = searchParams.get("message")
 
   useEffect(() => {
     const getIssues = async () => {
@@ -36,7 +38,7 @@ function Page() {
   }, [])
 
   const filteredIssues = issues.filter((issue) => {
-    // Filtrar por estado
+
     let statusMatch = true
     if (statusFilter === "all") {
       statusMatch = true
@@ -58,6 +60,7 @@ function Page() {
     <>
       <main className='px-10'>
         <div className="my-2 mx-4 space-y-2">
+         
           <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
           <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
           <Button
@@ -133,8 +136,10 @@ function Page() {
               </Button>
             </SignInButton>
           </SignedOut>
+          
         </div>
       </main>
+      {message && <AlertDemo message={message} />}
     </>
   )
 }

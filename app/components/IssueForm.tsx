@@ -24,6 +24,8 @@ import {
   SelectValue,
 } from "./ui/select"
 
+
+
 const formSchema = z.object({
   title: z.string().max(50, {
     message: "The title must have less than 50 characters",
@@ -45,18 +47,27 @@ export default function IssueForm() {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (user) {
-      try {
-        const newIssue = {
-          ...values,
-          status: "available",
-          userId: user.id,
-        }
-        await axios.post("/api/issues", newIssue)
-      } catch (error) {
-        console.log("Error creating issue:", error)
-      }
+if (user) {
+  try {
+    const newIssue = {
+      ...values,
+      status: "available",
+      userId: user.id,
+    };
+
+    const response = await axios.post("/api/issues", newIssue);
+      
+
+    if (response.status === 200 || response.status === 201) {
+      const message = encodeURIComponent("Issue creada correctamente");
+      window.location.assign(`/issues?message=${message}`);
+    } else {
+      console.error("Issue creation failed:", response);
     }
+  } catch (error) {
+    console.log("Error creating issue:", error);
+  }
+}
   }
 
   const areasArray = Object.entries(areas)
@@ -117,12 +128,14 @@ export default function IssueForm() {
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
+              
             </FormItem>
           )}
         />
-        <Button type='submit'>Create Issue</Button>
+          
       </form>
+      <Button type="submit"> Create Issue </Button>
     </Form>
+    
   )
 }
