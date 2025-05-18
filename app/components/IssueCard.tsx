@@ -14,7 +14,6 @@ function IssueCard({
   hasAnswer,
   status,
 }: IssueProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const date = new Date(createdAt).toLocaleDateString();
 

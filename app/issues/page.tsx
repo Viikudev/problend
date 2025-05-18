@@ -51,7 +51,7 @@ function Page() {
   return (
     <>
       <main className="flex flex-col gap-6 px-10">
-        <div className="flex gap-2 space-y-2">
+        <div className="flex flex-wrap gap-2 space-y-2">
           <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
           <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
           <Button

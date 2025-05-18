@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "@/app/components/Modal";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/app/components/ui/button";
 import { Textarea } from "@/app/components/ui/textarea";
@@ -9,7 +9,6 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IssueProps } from "@/app/types/issue";
 import { AnswerProps } from "@/app/types/answer";
 import axios from "axios";
-import { revalidatePath } from "next/cache";
 
 export default function Issue() {
   const [issue, setIssue] = useState<IssueProps | null>(null);
@@ -23,16 +22,18 @@ export default function Issue() {
         `${currentOrigin}/api/issues/${params.issueId}`
       );
       setIssue(issueResponse.data);
-      const answerResponse = await axios.get(
-        `${currentOrigin}/api/answer/${params.issueId}`
-      );
-      setAnswer(answerResponse.data);
+
+      if (issueResponse.data.status === "pending") {
+        const answerResponse = await axios.get(
+          `${currentOrigin}/api/answer/${params.issueId}`
+        );
+        setAnswer(answerResponse.data);
+      }
     };
     fetchData();
   }, []);
 
   const params = useParams();
-  const router = useRouter();
   const { user } = useUser();
 
   const handleTextareaValue = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -53,14 +54,9 @@ export default function Issue() {
         await axios.post("/api/answer", newAnswer);
       } catch (error) {
         console.log("Error creating answer:", error);
-      } finally {
       }
     }
   };
-
-  if (!issue) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Modal>
@@ -73,7 +69,7 @@ export default function Issue() {
             </div>
           )}
         </div>
-        {issue.status === "pending" ? (
+        {issue && issue.status === "pending" ? (
           <div className="flex flex-col gap-2 max-h-90 overflow-y-auto w-1/2">
             {answer && <p>{answer.content}</p>}
           </div>
