@@ -40,18 +40,29 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased `}
         >
-          <header className="flex justify-between items-center p-4 gap-4 h-16">
-            <Link href="/">
-              <GlowingLogo className="w-full" />
-            </Link>
+          <header className="bg-amber-100 flex justify-between items-start p-4 gap-4 h-30 mask-b-from-10%">
             <nav>
-              <ul className="flex gap-4">
-                <Link href="/issues" className="hover:underline">
-                  <li>Application</li>
+              <ul className="flex items-center gap-10">
+                <Link href="/">
+                  <GlowingLogo className="w-full" />
                 </Link>
+                <div className="flex gap-6 font-semibold pt-2 text-neutral-800">
+                  <Link
+                    href="/issues"
+                    className="hover:underline hover:decoration-amber-600 decoration-2"
+                  >
+                    <li>All Issues</li>
+                  </Link>
+                  <Link
+                    href="/myissues"
+                    className="hover:underline decoration-amber-600 decoration-2"
+                  >
+                    <li>My Issues</li>
+                  </Link>
+                </div>
               </ul>
             </nav>
-            <div className="flex gap-4">
+            <div className="flex gap-4 pt-4">
               <SignedOut>
                 <SignInButton mode="modal" />
                 <SignUpButton mode="modal" />
