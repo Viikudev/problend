@@ -27,11 +27,18 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  title: z.string().max(40, {
-    message: "The title must have less than 50 characters",
-  }),
-  description: z.string(),
-  area: z.string(),
+  title: z
+    .string()
+    .min(1, { message: "Title is required" })
+    .max(40, { message: "The title must have less than 40 characters" }),
+
+  description: z
+    .string()
+    .min(1, { message: "Description is required" }),
+
+  area: z
+    .string()
+    .min(1, { message: "Area is required" }),
 });
 
 export default function IssueForm() {
