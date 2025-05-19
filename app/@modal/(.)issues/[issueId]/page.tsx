@@ -39,11 +39,10 @@ export default function Issue() {
     if (response.status === 200 || response.status === 201) {
       const message = encodeURIComponent("answer created successfully");
        window.location.assign(`/issues?message=${message}`);
-      window.location.assign(`/issues?message=${message}`);
     } else if(response.status === 450){
         const message = encodeURIComponent("answer already resolved");
        window.location.assign(`/issues?message=${message}`);
-      console.error("Issue creation failed:", response);
+      console.error("Answer creation failed:", response);
     }
       } catch (error) {
         console.log("Error creating answer:", error);

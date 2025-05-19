@@ -52,7 +52,15 @@ export default function IssueForm() {
           status: "available",
           userId: user.id,
         };
-        await axios.post("/api/issues", newIssue);
+        const response = await axios.post("/api/issues", newIssue);
+            if (response.status === 200 || response.status === 201) {
+          const message = encodeURIComponent("issue created successfully");
+       window.location.assign(`/issues?message=${message}`);
+    } else{
+        const message = encodeURIComponent("problem to create issue");
+       window.location.assign(`/issues?message=${message}`);
+      console.error("Issue creation failed:", response);
+    }
       } catch (error) {
         console.log("Error creating issue:", error);
       }
