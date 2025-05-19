@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
    
   } catch (error) {
     // Manejar errores, especialmente errores de validación o de base de datos
-    console.error("Error al crear ISSUE:", error)
-    return NextResponse.json({ error: "Error al crear ISSUE o ISSUE" }, { status: 500 })
+    console.error("Error al crear answer:", error)
+    return NextResponse.json({ error: "Error al crear ansswer" }, { status: 500 })
   }
   
 }

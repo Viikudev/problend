@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 const options = [
   { value: "all", label: "All" },
   { value: "active", label: "Active" },
-  { value: "resolved", label: "Resolved" },
+  { value: "resolved", label: "Resolved/Pending" },
   { value: "myCards", label: "My cards" },
 ];
 
@@ -83,7 +83,6 @@ export function ComboboxDemo({ value, onSelect }: ComboboxProps) {
   );
 }
 
-// FILTRO DE ÁREA
 export function ComboboxDemoArea({ value, onSelect }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 

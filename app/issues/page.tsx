@@ -7,15 +7,20 @@ import Link from "next/link";
 import IssueCard from "../components/IssueCard";
 import { Button } from "../components/ui/button";
 import { Skeleton } from "../components/ui/skeleton";
-import { ComboboxDemo, ComboboxDemoArea } from "../components/FilterMenu";
+import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
 import { motion, AnimatePresence } from "framer-motion";
-import { useIssues } from "@/app/store/issuesStore";
+import { AlertDemo } from "../components/alert";
+import { useSearchParams } from "next/navigation";
+
 import { SignedIn, SignInButton, SignedOut } from "@clerk/nextjs";
 import { useShallow } from "zustand/react/shallow";
+import { useIssues } from "../store/issuesStore";
 
 function Page() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
 
   const { issues, loading, error, fetchIssues } = useIssues(
     useShallow((state) => ({
@@ -33,7 +38,6 @@ function Page() {
   }, []);
 
   const filteredIssues = issues.filter((issue) => {
-    // Filtrar por estado
     let statusMatch = true;
     if (statusFilter === "all") {
       statusMatch = true;
@@ -269,6 +273,9 @@ function Page() {
           </AnimatePresence>
         </ul>
       </main>
+      <div className="fixed bottom-10 right-10 w-64">
+        {message && <AlertDemo message={message} />}
+      </div>
     </>
   );
 }
