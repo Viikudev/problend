@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().max(40, {
@@ -33,6 +35,7 @@ const formSchema = z.object({
 });
 
 export default function IssueForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,6 +48,7 @@ export default function IssueForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(!isLoading);
     if (user) {
       try {
         const newIssue = {
@@ -53,16 +57,18 @@ export default function IssueForm() {
           userId: user.id,
         };
         const response = await axios.post("/api/issues", newIssue);
-            if (response.status === 200 || response.status === 201) {
+        if (response.status === 200 || response.status === 201) {
           const message = encodeURIComponent("issue created successfully");
-       window.location.assign(`/issues?message=${message}`);
-    } else{
-        const message = encodeURIComponent("problem to create issue");
-       window.location.assign(`/issues?message=${message}`);
-      console.error("Issue creation failed:", response);
-    }
+          window.location.assign(`/issues?message=${message}`);
+        } else {
+          const message = encodeURIComponent("problem to create issue");
+          window.location.assign(`/issues?message=${message}`);
+          console.error("Issue creation failed:", response);
+        }
       } catch (error) {
         console.log("Error creating issue:", error);
+      } finally {
+        setIsLoading(!isLoading);
       }
     }
   };
@@ -129,7 +135,9 @@ export default function IssueForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Create Issue</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Loader2 className="animate-spin" /> : "Create Issue"}
+        </Button>
       </form>
     </Form>
   );

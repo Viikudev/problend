@@ -22,16 +22,16 @@ model Answer {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Issue {
-  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String       @db.VarChar
-  userId      String       @db.VarChar(255)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String   @db.VarChar
+  userId      String   @db.VarChar(255)
   description String
   status      status
-  imageUrl    String?      @db.VarChar
-  createdAt   DateTime     @default(now()) @db.Timestamptz(6)
+  imageUrl    String?  @db.VarChar
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
   area        area
   Answer      Answer?
-  User        User         @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
+  User        User     @relation(fields: [userId], references: [clerkId], onDelete: NoAction, onUpdate: NoAction, map: "Issue_user_id_fkey")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -45,7 +45,6 @@ model User {
   Answer    Answer[]
   Issue     Issue[]
 }
-
 
 enum area {
   programming
