@@ -51,9 +51,17 @@ export default function Issue() {
           issueId: params.issueId,
           content: textareaValue,
         };
-        await axios.post("/api/answer", newAnswer);
-        const message = encodeURIComponent("answer created successfully");
-         window.location.assign(`/issues?message=${message}`);
+        const response = await axios.post("/api/answer", newAnswer);
+        
+    if (response.status === 200 || response.status === 201) {
+      const message = encodeURIComponent("answer created successfully");
+       window.location.assign(`/issues?message=${message}`);
+      window.location.assign(`/issues?message=${message}`);
+    } else if(response.status === 450){
+        const message = encodeURIComponent("answer already resolved");
+       window.location.assign(`/issues?message=${message}`);
+      console.error("Issue creation failed:", response);
+    }
       } catch (error) {
         console.log("Error creating answer:", error);
       }

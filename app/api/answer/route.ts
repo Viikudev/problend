@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
           },
         })
         return NextResponse.json(newAnswer, { status: 201 })
-      }else{return NextResponse.json({ error: "answer resolved" }, { status: 500 })}
+      }else{return NextResponse.json({ error: "answer resolved" }, { status: 450 })}
 
 
     // Devolver una respuesta JSON con el nuevo "Issue" creado
