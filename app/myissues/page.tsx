@@ -13,8 +13,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { AlertDemo } from "../components/alert";
 import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function MyIssues() {
+  
+  const pathname = usePathname();
+  const router = useRouter();
+
+const handleClick = () => {
+  sessionStorage.setItem("issueFrom", pathname);
+  router.push("/issueForm");
+};
+
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -40,10 +51,12 @@ export default function MyIssues() {
     return (
       <>
       <main className="flex flex-col gap-10 px-10 pb-10">
+       
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           <div className="flex flex-wrap gap-4 m-0">
             <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
             <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
+
             <Button
               variant="outline"
               onClick={() => {
@@ -54,10 +67,11 @@ export default function MyIssues() {
               clear filters
             </Button>
           </div>
+          
           <div>
             <SignedIn>
-              <Link href="/issueform">
                 <Button
+                  onClick={handleClick}
                   variant="floating"
                   size="sm"
                   className="flex items-center cursor-pointer"
@@ -70,7 +84,7 @@ export default function MyIssues() {
                   />
                   Create Issue
                 </Button>
-              </Link>
+              
             </SignedIn>
 
             <SignedOut>
@@ -92,6 +106,7 @@ export default function MyIssues() {
             </SignedOut>
           </div>
         </div>
+        
         <p>No issues found</p>
         
       </main>
@@ -126,8 +141,9 @@ export default function MyIssues() {
           </div>
           <div>
             <SignedIn>
-              <Link href="/issueform">
+
                 <Button
+                 onClick={handleClick}
                   variant="floating"
                   size="sm"
                   className="flex items-center cursor-pointer"
@@ -140,7 +156,7 @@ export default function MyIssues() {
                   />
                   Create Issue
                 </Button>
-              </Link>
+         
             </SignedIn>
 
             <SignedOut>
@@ -187,6 +203,9 @@ export default function MyIssues() {
           </AnimatePresence>
         </ul>
       </main>
+                  <div className="fixed bottom-10 right-10 w-64">
+              {message && <AlertDemo message={message} />}
+            </div>
     </>
   );
 }

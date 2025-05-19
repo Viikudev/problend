@@ -45,7 +45,7 @@ export function AlertDemo({ message, duration = 3000 }: AlertDemoProps) {
   return (
     <Alert className="bg-green-100 border border-green-400 text-green-800">
       <Terminal className="h-4 w-4" />
-      <AlertTitle>alert!</AlertTitle>
+      <AlertTitle>Hey!</AlertTitle>
       <AlertDescription>{message}</AlertDescription>
     </Alert>
   )

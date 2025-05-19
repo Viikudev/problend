@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
@@ -10,7 +9,6 @@ import { IssueProps, areas } from "../types/issue";
 import { SignedIn, SignInButton, SignedOut } from "@clerk/nextjs";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -20,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/app/components/ui/alert-dialog";
 import { useUser } from "@clerk/nextjs";
+import { Loader2 } from "lucide-react";
 
 function IssueCard({
   id,
@@ -34,6 +33,7 @@ function IssueCard({
   const date = new Date(createdAt).toLocaleDateString();
 
   const { user } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
 
   const areaLabel = areas[area];
   const areaColorMap: Record<string, string> = {
@@ -51,14 +51,21 @@ function IssueCard({
   };
 
   const handleDelete = async () => {
+    setIsLoading(true);
     const response = await axios.delete(`/api/issues/${id}`);
 
     if (response.status === 200 || response.status === 201) {
-      const message = encodeURIComponent("issues delete successfully");
-      window.location.assign(`/myissues?message=${message}`);
-    } else if (response.status === 450) {
+      const message = encodeURIComponent("issue deleted successfully");
+      const url = new URL(window.location.href);
+      const decodedMessage = decodeURIComponent(message);
+      url.searchParams.set("message", decodedMessage);
+      window.location.href = url.toString();
+    } else {
       const message = encodeURIComponent("issue delete failed");
-      window.location.assign(`/myissues?message=${message}`);
+      const url = new URL(window.location.href);
+      const decodedMessage = decodeURIComponent(message);
+      url.searchParams.set("message", decodedMessage);
+      window.location.href = url.toString();
       console.error("issue delete failed:", response);
     }
   };
@@ -107,13 +114,18 @@ function IssueCard({
                       variant="ghost"
                       size="delete"
                       className="hover:scale-105 cursor-pointer"
+                      disabled={isLoading}
                     >
-                      <Image
-                        src="/delete-icon.svg"
-                        alt="detele icon"
-                        width={30}
-                        height={30}
-                      />
+                      {isLoading ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        <Image
+                          src="/delete-icon.svg"
+                          alt="detele icon"
+                          width={30}
+                          height={30}
+                        />
+                      )}
                     </Button>
                   )}
                 </AlertDialogTrigger>
@@ -131,12 +143,17 @@ function IssueCard({
                     <AlertDialogCancel className="bg-secondary">
                       Cancel
                     </AlertDialogCancel>
-                    <AlertDialogAction
+                    <Button
                       onClick={handleDelete}
                       className="bg-destructive"
+                      disabled={isLoading}
                     >
-                      Delete
-                    </AlertDialogAction>
+                      {isLoading ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        "Delete"
+                      )}
+                    </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>

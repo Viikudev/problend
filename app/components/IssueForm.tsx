@@ -49,28 +49,32 @@ export default function IssueForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(!isLoading);
-    if (user) {
-      try {
-        const newIssue = {
-          ...values,
-          status: "available",
-          userId: user.id,
-        };
-        const response = await axios.post("/api/issues", newIssue);
-        if (response.status === 200 || response.status === 201) {
-          const message = encodeURIComponent("issue created successfully");
-          window.location.assign(`/issues?message=${message}`);
-        } else {
-          const message = encodeURIComponent("problem to create issue");
-          window.location.assign(`/issues?message=${message}`);
-          console.error("Issue creation failed:", response);
-        }
-      } catch (error) {
-        console.log("Error creating issue:", error);
-      } finally {
-        setIsLoading(!isLoading);
-      }
+  if (user) {
+    try {
+      const newIssue = {
+        ...values,
+        status: "available",
+        userId: user.id,
+      };
+
+      const response = await axios.post("/api/issues", newIssue);
+      const from = sessionStorage.getItem("issueFrom") || "/issues";
+      const message =
+        response.status === 200 || response.status === 201
+          ? "issue created successfully"
+          : "problem to create issue";
+      window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
+    } catch (error) {
+      console.error("Error creating issue:", error);
+
+      const from = sessionStorage.getItem("issueFrom") || "/issues";
+      const message = "error creating issue";
+
+      window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
+    } finally {
+      setIsLoading(false);
     }
+  }
   };
 
   const areasArray = Object.entries(areas);

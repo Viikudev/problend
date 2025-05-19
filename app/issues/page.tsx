@@ -11,12 +11,14 @@ import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertDemo } from "../components/alert";
 import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { SignedIn, SignInButton, SignedOut } from "@clerk/nextjs";
 import { useShallow } from "zustand/react/shallow";
 import { useIssues } from "../store/issuesStore";
 
 function Page() {
+  const pathname = usePathname();
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
   const searchParams = useSearchParams();
@@ -88,7 +90,7 @@ function Page() {
           </div>
           <div>
             <SignedIn>
-              <Link href="/issueform">
+              <Link href={`/issueForm?from=${encodeURIComponent(pathname)}`}>
                 <Button
                   variant="floating"
                   size="sm"
