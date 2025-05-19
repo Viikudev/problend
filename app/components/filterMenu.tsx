@@ -12,7 +12,6 @@ const options = [
   { value: "all", label: "All" },
   { value: "active", label: "Active" },
   { value: "resolved", label: "Resolved/Pending" },
-  { value: "myCards", label: "My cards" },
 ];
 
 const optionsArea = [

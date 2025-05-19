@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -68,7 +69,18 @@ function IssueCard({
         <div className="flex justify-between items-end">
           <div className="text-xs">Created at {date}</div>
           <SignedIn>
-            <Link href={`/issues/${id}`}>
+            <Link href={`/issues/${id}`} className="flex gap-2">
+              <Button
+                variant="destructive"
+                className="hover:scale-105 cursor-pointer"
+              >
+                <Image
+                  src="/delete-icon.svg"
+                  alt="detele icon"
+                  width={25}
+                  height={25}
+                />
+              </Button>
               <Button
                 variant="default"
                 className={`text-xs font-bold transition-all duration-200 ${

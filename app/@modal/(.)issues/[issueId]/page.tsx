@@ -9,8 +9,10 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { AnswerProps } from "@/app/types/answer";
 import axios from "axios";
 import { useIssues } from "@/app/store/issuesStore";
+import { Loader2 } from "lucide-react";
 
 export default function Issue() {
+  const [isLoading, setIsLoading] = useState(false);
   const [answer, setAnswer] = useState<AnswerProps | null>(null);
   const [textareaValue, setTextareaValue] = useState("");
 
@@ -26,6 +28,7 @@ export default function Issue() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(!isLoading);
 
     if (user) {
       try {
@@ -46,6 +49,8 @@ export default function Issue() {
         }
       } catch (error) {
         console.log("Error creating answer:", error);
+      } finally {
+        setIsLoading(!isLoading);
       }
     }
   };
@@ -78,7 +83,9 @@ export default function Issue() {
               className="resize-none h-90"
               onChange={handleTextareaValue}
             />
-            <Button type="submit">Send Answer</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : "Send Answer"}
+            </Button>
           </form>
         )}
       </div>

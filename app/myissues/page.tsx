@@ -1,26 +1,21 @@
 "use client";
 
-import { useUser } from "@clerk/clerk-react";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import IssueCard from "../components/IssueCard";
-import IssueSkeleton from "../components/IssueSkeleton";
-import { Button } from "../components/ui/button";
-import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { AlertDemo } from "../components/alert";
-import { useSearchParams } from "next/navigation";
-
-import { SignedIn, SignInButton, SignedOut } from "@clerk/nextjs";
 import { useShallow } from "zustand/react/shallow";
 import { useIssues } from "../store/issuesStore";
+import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
+import IssueCard from "../components/IssueCard";
+import IssueSkeleton from "../components/IssueSkeleton";
+import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
+import { Button } from "../components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
-function Page() {
+export default function MyIssues() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
-  const searchParams = useSearchParams();
-  const message = searchParams.get("message");
+  const { user } = useUser();
 
   const { issues, loading, error, fetchIssues } = useIssues(
     useShallow((state) => ({
@@ -31,41 +26,9 @@ function Page() {
     }))
   );
 
-  const { user } = useUser();
-
   useEffect(() => {
     fetchIssues();
   }, []);
-
-  const filteredIssues = issues.filter((issue) => {
-    let statusMatch = true;
-    if (statusFilter === "all") {
-      statusMatch = true;
-    } else if (statusFilter === "active") {
-      statusMatch = issue.status === "available";
-    } else if (statusFilter === "resolved") {
-      statusMatch = issue.status === "resolved" || issue.status === "pending";
-    } else if (statusFilter === "myCards") {
-      statusMatch = user ? issue.userId === user.id : false;
-    }
-
-    const areaMatch = !areaFilter || issue.area === areaFilter;
-
-    return statusMatch && areaMatch;
-  });
-
-  if (error) {
-    return (
-      <main className="flex flex-col items-center justify-center gap-4 p-10">
-        <div className="text-red-500 text-lg">
-          Error loading issues: {error}
-        </div>
-        <Button onClick={fetchIssues} variant="outline">
-          Retry
-        </Button>
-      </main>
-    );
-  }
 
   if (loading) {
     return <IssueSkeleton />;
@@ -129,6 +92,10 @@ function Page() {
     );
   }
 
+  const myissues = user
+    ? issues.filter((issue) => issue.userId === user.id)
+    : [];
+
   return (
     <>
       <main className="flex flex-col gap-10 px-10 pb-10">
@@ -184,10 +151,9 @@ function Page() {
             </SignedOut>
           </div>
         </div>
-
         <ul className="grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center">
           <AnimatePresence mode="wait">
-            {filteredIssues.map((issue) => (
+            {myissues.map((issue) => (
               <motion.div
                 key={issue.id}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -210,11 +176,6 @@ function Page() {
           </AnimatePresence>
         </ul>
       </main>
-      <div className="fixed bottom-10 right-10 w-64">
-        {message && <AlertDemo message={message} />}
-      </div>
     </>
   );
 }
-
-export default Page;

@@ -16,7 +16,7 @@ const fetchIssuesData = async (): Promise<IssueProps[]> => {
 
 export const useIssues = create<IssuesState>((set) => ({
   issues: [],
-  loading: false,
+  loading: true,
   error: null,
   fetchIssues: async () => {
     set({ loading: true, error: null });
