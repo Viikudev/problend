@@ -42,10 +42,12 @@ export default function MyIssues() {
     return (
       <>
       <main className="flex flex-col gap-10 px-10 pb-10">
+       
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           <div className="flex flex-wrap gap-4 m-0">
             <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
             <ComboboxDemoArea value={areaFilter} onSelect={setAreaFilter} />
+
             <Button
               variant="outline"
               onClick={() => {
@@ -56,6 +58,7 @@ export default function MyIssues() {
               clear filters
             </Button>
           </div>
+          
           <div>
             <SignedIn>
               <Link href={`/issueForm?from=${encodeURIComponent(pathname)}`}>
@@ -94,6 +97,7 @@ export default function MyIssues() {
             </SignedOut>
           </div>
         </div>
+        
         <p>No issues found</p>
         
       </main>
@@ -112,6 +116,7 @@ export default function MyIssues() {
   return (
     <>
       <main className="flex flex-col gap-10 px-10 pb-10">
+        <h1>My issues</h1>
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           <div className="flex flex-wrap gap-4 m-0">
             <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
