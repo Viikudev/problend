@@ -7,7 +7,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const { id } = await params;
 
     const issue = await prisma.issue.findUnique({
-      where: { id },
+      where: { id: id },
       include: {
         User: true,
         Answer: true,
@@ -34,7 +34,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Se requiere el ID del ISSUE' }, { status: 400 });
     }
 
-    // Eliminar el "Issue" por ID usando Prisma
     const deletedIssue = await prisma.issue.delete({
       where: {
         id: id,
