@@ -52,7 +52,6 @@ function IssueCard({
   };
 
   const handleDelete = async () => {
-
     const response = await axios.delete(`/api/issues/${id}`);
 
         if (response.status === 200 || response.status === 201) {
@@ -73,10 +72,6 @@ function IssueCard({
 
 
   };
-
-
-
-
 
   return (
     <li
@@ -119,14 +114,15 @@ function IssueCard({
                 <AlertDialogTrigger asChild>
                   {user && user.id === userId && (
                     <Button
-                      variant="destructive"
+                      variant="ghost"
+                      size="delete"
                       className="hover:scale-105 cursor-pointer"
                     >
                       <Image
                         src="/delete-icon.svg"
                         alt="detele icon"
-                        width={25}
-                        height={25}
+                        width={30}
+                        height={30}
                       />
                     </Button>
                   )}
@@ -172,6 +168,7 @@ function IssueCard({
             <SignInButton mode="modal">
               <Button
                 variant="default"
+                size="sm"
                 className={`text-xs font-bold transition-all duration-200 ${
                   isButtonHovered ? "scale-105" : "scale-100"
                 }`}
