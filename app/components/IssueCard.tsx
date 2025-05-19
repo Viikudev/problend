@@ -52,8 +52,25 @@ function IssueCard({
   };
 
   const handleDelete = async () => {
-    await axios.delete(`/api/issues/${id}`);
+
+    const response = await axios.delete(`/api/issues/${id}`);
+
+        if (response.status === 200 || response.status === 201) {
+          const message = encodeURIComponent("issues delete successfully");
+          window.location.assign(`/myissues?message=${message}`);
+        } else if (response.status === 450) {
+          const message = encodeURIComponent("issue delete failed");
+          window.location.assign(`/myissues?message=${message}`);
+          console.error("issue delete failed:", response);
+        }
+
+
+
   };
+
+
+
+
 
   return (
     <li

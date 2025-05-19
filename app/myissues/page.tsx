@@ -11,8 +11,12 @@ import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
 import { Button } from "../components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { AlertDemo } from "../components/alert";
+import { useSearchParams } from "next/navigation";
 
 export default function MyIssues() {
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
   const { user } = useUser();
@@ -34,6 +38,7 @@ export default function MyIssues() {
     return <IssueSkeleton />;
   } else if (issues.length === 0) {
     return (
+      <>
       <main className="flex flex-col gap-10 px-10 pb-10">
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           <div className="flex flex-wrap gap-4 m-0">
@@ -88,7 +93,13 @@ export default function MyIssues() {
           </div>
         </div>
         <p>No issues found</p>
+        
       </main>
+            <div className="fixed bottom-10 right-10 w-64">
+              {message && <AlertDemo message={message} />}
+            </div>
+      </>
+      
     );
   }
 

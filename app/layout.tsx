@@ -11,7 +11,6 @@ import {
 } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -53,12 +52,26 @@ export default function RootLayout({
                   >
                     <li>All Issues</li>
                   </Link>
+                    
+                    <SignedOut>
+                      <SignInButton mode="modal">
+                            <button className="hover:underline decoration-amber-600 decoration-2">
+                              My Issues
+                              </button>
+                              </SignInButton>
+                    </SignedOut>
+
+
+                <SignedIn>
                   <Link
                     href="/myissues"
                     className="hover:underline decoration-amber-600 decoration-2"
                   >
                     <li>My Issues</li>
                   </Link>
+                    </SignedIn>
+
+
                 </div>
               </ul>
             </nav>

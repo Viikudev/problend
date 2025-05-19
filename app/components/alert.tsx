@@ -11,18 +11,33 @@ type AlertDemoProps = {
   duration?: number
 }
 
-
 export function AlertDemo({ message, duration = 3000 }: AlertDemoProps) {
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    if (!message) return 
+    if (!message) return
 
     const timer = setTimeout(() => {
       setVisible(false)
+
+      // Limpiar el parámetro "message" de la URL actual
+      const url = new URL(window.location.href)
+      url.searchParams.delete("message")
+      window.history.replaceState({}, "", url.toString())
     }, duration)
 
-    return () => clearTimeout(timer)
+    const cancelTimer = () => {
+      clearTimeout(timer)
+    }
+
+    window.addEventListener("beforeunload", cancelTimer)
+    window.addEventListener("popstate", cancelTimer)
+
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener("beforeunload", cancelTimer)
+      window.removeEventListener("popstate", cancelTimer)
+    }
   }, [message, duration])
 
   if (!message || !visible) return null
