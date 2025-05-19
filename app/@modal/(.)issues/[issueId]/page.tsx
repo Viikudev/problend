@@ -5,33 +5,16 @@ import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/app/components/ui/button";
 import { Textarea } from "@/app/components/ui/textarea";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { IssueProps } from "@/app/types/issue";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { AnswerProps } from "@/app/types/answer";
 import axios from "axios";
+import { useIssues } from "@/app/store/issuesStore";
 
 export default function Issue() {
-  const [issue, setIssue] = useState<IssueProps | null>(null);
   const [answer, setAnswer] = useState<AnswerProps | null>(null);
   const [textareaValue, setTextareaValue] = useState("");
 
-  useEffect(() => {
-    const currentOrigin = window.location.origin;
-    const fetchData = async () => {
-      const issueResponse = await axios.get(
-        `${currentOrigin}/api/issues/${params.issueId}`
-      );
-      setIssue(issueResponse.data);
-
-      if (issueResponse.data.status === "pending") {
-        const answerResponse = await axios.get(
-          `${currentOrigin}/api/answer/${params.issueId}`
-        );
-        setAnswer(answerResponse.data);
-      }
-    };
-    fetchData();
-  }, []);
+  const issues = useIssues((state) => state.issues);
 
   const params = useParams();
   const { user } = useUser();
@@ -58,18 +41,20 @@ export default function Issue() {
     }
   };
 
+  const issueData = issues.find((issue) => issue.id === params.issueId);
+
   return (
     <Modal>
       <div className="flex gap-4 px-4">
         <div className="flex flex-col w-3/5 md:w-1/2 max-h-80 overflow-y-auto pr-2">
-          {issue && (
+          {issueData && (
             <div>
-              <h2 className="text-lg font-bold">{issue.title}</h2>
-              <p>{issue.description}</p>
+              <h2 className="text-lg font-bold">{issueData.title}</h2>
+              <p>{issueData.description}</p>
             </div>
           )}
         </div>
-        {issue && issue.status === "pending" ? (
+        {issueData && issueData.status === "pending" ? (
           <div className="flex flex-col gap-2 max-h-90 overflow-y-auto w-1/2">
             {answer && <p>{answer.content}</p>}
           </div>

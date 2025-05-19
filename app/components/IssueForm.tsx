@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useUser } from "@clerk/nextjs"
-import axios from "axios"
-import { areas } from "../types/issue"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import { areas } from "../types/issue";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import {
   Form,
   FormControl,
@@ -15,25 +15,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form"
+} from "./ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select"
+} from "./ui/select";
 
 const formSchema = z.object({
-  title: z.string().max(50, {
+  title: z.string().max(40, {
     message: "The title must have less than 50 characters",
   }),
   description: z.string(),
   area: z.string(),
-})
+});
 
 export default function IssueForm() {
-  const { user } = useUser()
+  const { user } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,7 +42,7 @@ export default function IssueForm() {
       description: "",
       area: "",
     },
-  })
+  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (user) {
@@ -51,31 +51,31 @@ export default function IssueForm() {
           ...values,
           status: "available",
           userId: user.id,
-        }
-        await axios.post("/api/issues", newIssue)
+        };
+        await axios.post("/api/issues", newIssue);
       } catch (error) {
-        console.log("Error creating issue:", error)
+        console.log("Error creating issue:", error);
       }
     }
-  }
+  };
 
-  const areasArray = Object.entries(areas)
-  console.log(areasArray)
+  const areasArray = Object.entries(areas);
+  console.log(areasArray);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='flex flex-col justify-between gap-4'
+        className="flex flex-col justify-between gap-4"
       >
         <FormField
           control={form.control}
-          name='title'
+          name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder='Type here the issue title' {...field} />
+                <Input placeholder="Type here the issue title" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,13 +83,13 @@ export default function IssueForm() {
         />
         <FormField
           control={form.control}
-          name='description'
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Input
-                  placeholder='Type here the detailed description of the issue'
+                  placeholder="Type here the detailed description of the issue"
                   {...field}
                 />
               </FormControl>
@@ -99,14 +99,14 @@ export default function IssueForm() {
         />
         <FormField
           control={form.control}
-          name='area'
+          name="area"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Area</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select the area' />
+                    <SelectValue placeholder="Select the area" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -121,8 +121,8 @@ export default function IssueForm() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Create Issue</Button>
+        <Button type="submit">Create Issue</Button>
       </form>
     </Form>
-  )
+  );
 }
