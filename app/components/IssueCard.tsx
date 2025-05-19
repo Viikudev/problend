@@ -34,7 +34,6 @@ function IssueCard({
   const date = new Date(createdAt).toLocaleDateString();
 
   const { user } = useUser();
-  const router = useRouter();
 
   const areaLabel = areas[area];
   const areaColorMap: Record<string, string> = {
