@@ -8,8 +8,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-
-
 import {
   Form,
   FormControl,
@@ -49,12 +47,8 @@ export default function IssueForm() {
     },
   });
 
-const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  setIsLoading(true);
-
-  const params = new URLSearchParams(window.location.search);
-  const from = params.get("from") || "/issues"; 
-
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(!isLoading);
   if (user) {
     try {
       const newIssue = {
@@ -62,23 +56,26 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
         status: "available",
         userId: user.id,
       };
+
       const response = await axios.post("/api/issues", newIssue);
-      const message = response.status === 200 || response.status === 201
-        ? encodeURIComponent("issue created successfully")
-        : encodeURIComponent("problem to create issue");
-
-      // Redirige a la ruta original con el mensaje
-      const redirectUrl = `${from}?message=${message}`;
-      window.location.assign(redirectUrl);
-
+      const from = sessionStorage.getItem("issueFrom") || "/issues";
+      const message =
+        response.status === 200 || response.status === 201
+          ? "issue created successfully"
+          : "problem to create issue";
+      window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
     } catch (error) {
       console.error("Error creating issue:", error);
+
+      const from = sessionStorage.getItem("issueFrom") || "/issues";
+      const message = "error creating issue";
+
+      window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
     } finally {
       setIsLoading(false);
     }
   }
-};
-
+  };
 
   const areasArray = Object.entries(areas);
   console.log(areasArray);

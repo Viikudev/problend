@@ -14,9 +14,18 @@ import Image from "next/image";
 import { AlertDemo } from "../components/alert";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function MyIssues() {
+  
   const pathname = usePathname();
+  const router = useRouter();
+
+const handleClick = () => {
+  sessionStorage.setItem("issueFrom", pathname);
+  router.push("/issueForm");
+};
+
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -61,8 +70,8 @@ export default function MyIssues() {
           
           <div>
             <SignedIn>
-              <Link href={`/issueForm?from=${encodeURIComponent(pathname)}`}>
                 <Button
+                  onClick={handleClick}
                   variant="floating"
                   size="sm"
                   className="flex items-center cursor-pointer"
@@ -75,7 +84,7 @@ export default function MyIssues() {
                   />
                   Create Issue
                 </Button>
-              </Link>
+              
             </SignedIn>
 
             <SignedOut>
@@ -116,7 +125,6 @@ export default function MyIssues() {
   return (
     <>
       <main className="flex flex-col gap-10 px-10 pb-10">
-        <h1>My issues</h1>
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           <div className="flex flex-wrap gap-4 m-0">
             <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
@@ -133,8 +141,9 @@ export default function MyIssues() {
           </div>
           <div>
             <SignedIn>
-              <Link href={`/issueForm?from=${encodeURIComponent(pathname)}`}>
+
                 <Button
+                 onClick={handleClick}
                   variant="floating"
                   size="sm"
                   className="flex items-center cursor-pointer"
@@ -147,7 +156,7 @@ export default function MyIssues() {
                   />
                   Create Issue
                 </Button>
-              </Link>
+         
             </SignedIn>
 
             <SignedOut>
