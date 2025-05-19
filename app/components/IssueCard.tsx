@@ -56,11 +56,17 @@ function IssueCard({
     const response = await axios.delete(`/api/issues/${id}`);
 
         if (response.status === 200 || response.status === 201) {
-          const message = encodeURIComponent("issues delete successfully");
-          window.location.assign(`/myissues?message=${message}`);
-        } else if (response.status === 450) {
+          const message = encodeURIComponent("issues deleted successfully");
+            const url = new URL(window.location.href);
+            const decodedMessage = decodeURIComponent(message);
+            url.searchParams.set("message", decodedMessage); 
+            window.location.href = url.toString()
+        } else {
           const message = encodeURIComponent("issue delete failed");
-          window.location.assign(`/myissues?message=${message}`);
+            const url = new URL(window.location.href);
+             const decodedMessage = decodeURIComponent(message);
+            url.searchParams.set("message", decodedMessage);  
+            window.location.href = url.toString()
           console.error("issue delete failed:", response);
         }
 

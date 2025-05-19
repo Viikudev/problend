@@ -13,8 +13,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { AlertDemo } from "../components/alert";
 import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function MyIssues() {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -56,7 +58,7 @@ export default function MyIssues() {
           </div>
           <div>
             <SignedIn>
-              <Link href="/issueform">
+              <Link href={`/issueForm?from=${encodeURIComponent(pathname)}`}>
                 <Button
                   variant="floating"
                   size="sm"
@@ -126,7 +128,7 @@ export default function MyIssues() {
           </div>
           <div>
             <SignedIn>
-              <Link href="/issueform">
+              <Link href={`/issueForm?from=${encodeURIComponent(pathname)}`}>
                 <Button
                   variant="floating"
                   size="sm"
@@ -187,6 +189,9 @@ export default function MyIssues() {
           </AnimatePresence>
         </ul>
       </main>
+                  <div className="fixed bottom-10 right-10 w-64">
+              {message && <AlertDemo message={message} />}
+            </div>
     </>
   );
 }

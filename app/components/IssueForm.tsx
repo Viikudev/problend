@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+
+
 import {
   Form,
   FormControl,
@@ -47,31 +49,36 @@ export default function IssueForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(!isLoading);
-    if (user) {
-      try {
-        const newIssue = {
-          ...values,
-          status: "available",
-          userId: user.id,
-        };
-        const response = await axios.post("/api/issues", newIssue);
-        if (response.status === 200 || response.status === 201) {
-          const message = encodeURIComponent("issue created successfully");
-          window.location.assign(`/issues?message=${message}`);
-        } else {
-          const message = encodeURIComponent("problem to create issue");
-          window.location.assign(`/issues?message=${message}`);
-          console.error("Issue creation failed:", response);
-        }
-      } catch (error) {
-        console.log("Error creating issue:", error);
-      } finally {
-        setIsLoading(!isLoading);
-      }
+const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  setIsLoading(true);
+
+  const params = new URLSearchParams(window.location.search);
+  const from = params.get("from") || "/issues"; 
+
+  if (user) {
+    try {
+      const newIssue = {
+        ...values,
+        status: "available",
+        userId: user.id,
+      };
+      const response = await axios.post("/api/issues", newIssue);
+      const message = response.status === 200 || response.status === 201
+        ? encodeURIComponent("issue created successfully")
+        : encodeURIComponent("problem to create issue");
+
+      // Redirige a la ruta original con el mensaje
+      const redirectUrl = `${from}?message=${message}`;
+      window.location.assign(redirectUrl);
+
+    } catch (error) {
+      console.error("Error creating issue:", error);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
+};
+
 
   const areasArray = Object.entries(areas);
   console.log(areasArray);
