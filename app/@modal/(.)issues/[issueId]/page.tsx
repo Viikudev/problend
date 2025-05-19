@@ -35,15 +35,15 @@ export default function Issue() {
           content: textareaValue,
         };
         const response = await axios.post("/api/answer", newAnswer);
-        
-    if (response.status === 200 || response.status === 201) {
-      const message = encodeURIComponent("answer created successfully");
-       window.location.assign(`/issues?message=${message}`);
-    } else if(response.status === 450){
-        const message = encodeURIComponent("answer already resolved");
-       window.location.assign(`/issues?message=${message}`);
-      console.error("Answer creation failed:", response);
-    }
+
+        if (response.status === 200 || response.status === 201) {
+          const message = encodeURIComponent("answer created successfully");
+          window.location.assign(`/issues?message=${message}`);
+        } else if (response.status === 450) {
+          const message = encodeURIComponent("answer already resolved");
+          window.location.assign(`/issues?message=${message}`);
+          console.error("Answer creation failed:", response);
+        }
       } catch (error) {
         console.log("Error creating answer:", error);
       }
@@ -54,8 +54,8 @@ export default function Issue() {
 
   return (
     <Modal>
-      <div className="flex gap-4 px-4">
-        <div className="flex flex-col w-3/5 md:w-1/2 max-h-80 overflow-y-auto pr-2">
+      <div className="flex gap-4 px-4 max-sm:flex-col max-h-90 ">
+        <div className="flex flex-col w-3/5 md:w-1/2 max-h-90 max-sm:overflow-y-auto sm:overflow-y-auto pr-2 max-sm:w-full">
           {issueData && (
             <div>
               <h2 className="text-lg font-bold">{issueData.title}</h2>
@@ -70,7 +70,7 @@ export default function Issue() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-2 max-h-90 overflow-y-auto w-1/2"
+            className="flex flex-col gap-2 max-h-90 overflow-y-auto w-1/2 max-sm:w-full max-sm:max-h-70"
           >
             <Textarea
               placeholder="Write your answer here..."

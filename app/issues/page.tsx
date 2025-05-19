@@ -192,9 +192,11 @@ function Page() {
     );
   }
 
+  console.log(issues);
+
   return (
     <>
-      <main className="flex flex-col gap-10 px-10">
+      <main className="flex flex-col gap-10 px-10 pb-10">
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           <div className="flex flex-wrap gap-4 m-0">
             <ComboboxDemo value={statusFilter} onSelect={setStatusFilter} />
