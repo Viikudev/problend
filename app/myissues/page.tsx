@@ -106,7 +106,7 @@ export default function MyIssues() {
         </div>
 
         {myIssues.length === 0 ? (
-          <p>No issues found</p>
+          <p>you have no issues created</p>
         ) : (
           <ul className="grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center">
             <AnimatePresence mode="wait">
