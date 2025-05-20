@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useSearchParams} from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
@@ -18,28 +18,40 @@ import { Button } from "../components/ui/button";
 import { useIssues } from "../store/issuesStore";
 import { useShallow } from "zustand/react/shallow";
 
-
 function CreateIssueButton() {
-
   return (
     <>
       <SignedIn>
         <Link href={"/issueform"}>
-        <Button
-          variant="floating"
-          size="sm"
-          className="flex items-center cursor-pointer"
-        >
-          <Image src="/issue.svg" alt="create issue icon" width={20} height={20} />
-          Create Issue
-        </Button>
+          <Button
+            variant="floating"
+            size="sm"
+            className="flex items-center cursor-pointer"
+          >
+            <Image
+              src="/issue.svg"
+              alt="create issue icon"
+              width={20}
+              height={20}
+            />
+            Create Issue
+          </Button>
         </Link>
       </SignedIn>
 
       <SignedOut>
         <SignInButton mode="modal">
-          <Button variant="floating" size="sm" className="flex items-center cursor-pointer">
-            <Image src="/issue.svg" alt="create issue icon" width={20} height={20} />
+          <Button
+            variant="floating"
+            size="sm"
+            className="flex items-center cursor-pointer"
+          >
+            <Image
+              src="/issue.svg"
+              alt="create issue icon"
+              width={20}
+              height={20}
+            />
             Create Issue
           </Button>
         </SignInButton>
@@ -73,7 +85,8 @@ export default function Page() {
     const statusMatch =
       statusFilter === "all" ||
       (statusFilter === "active" && issue.status === "available") ||
-      (statusFilter === "resolved" && (issue.status === "resolved" || issue.status === "pending")) ||
+      (statusFilter === "resolved" &&
+        (issue.status === "resolved" || issue.status === "pending")) ||
       (statusFilter === "myCards" && user && issue.userId === user.id);
 
     const areaMatch = !areaFilter || issue.area === areaFilter;
@@ -100,8 +113,12 @@ export default function Page() {
   if (error) {
     return (
       <main className="flex flex-col items-center justify-center gap-4 p-10">
-        <div className="text-red-500 text-lg">Error loading issues: {error}</div>
-        <Button onClick={fetchIssues} variant="outline">Retry</Button>
+        <div className="text-red-500 text-lg">
+          Error loading issues: {error}
+        </div>
+        <Button onClick={fetchIssues} variant="outline">
+          Retry
+        </Button>
       </main>
     );
   }

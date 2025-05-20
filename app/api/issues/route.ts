@@ -56,11 +56,12 @@ export async function GET() {
         })
     // Devolver una respuesta JSON con todos los "Issues"
     return NextResponse.json(issues, { status: 200 })
-  } catch (error: any) {
+  } catch (error) {
     // Manejar errores
     console.error("Error al obtener los ISSUES:", error)
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     return NextResponse.json(
-      { error: "Error al obtener los ISSUES: " + error.message },
+      { error: "Error al obtener los ISSUES: " + errorMessage },
       { status: 500 }
     )
   }

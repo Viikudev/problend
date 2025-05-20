@@ -1,10 +1,10 @@
 // Función para obtener todos los "issues"
 
 import { PrismaClient } from '@prisma/client';
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Obtener todos los "Issues" usando Prisma
     const resolvedIssues = await prisma.issue.findMany({
@@ -19,9 +19,10 @@ export async function GET(request: NextRequest) {
 
     // Devolver una respuesta JSON con todos los "Issues"
     return NextResponse.json(resolvedIssues, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     // Manejar errores
     console.error('Error al obtener los ISSUES resueltos:', error);
-    return NextResponse.json({ error: 'Error al obtener los ISSUES resueltos: ' + error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    return NextResponse.json({ error: 'Error al obtener los ISSUES resueltos: ' + errorMessage }, { status: 500 });
   }
 }
