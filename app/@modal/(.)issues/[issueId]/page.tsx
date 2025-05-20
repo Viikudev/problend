@@ -142,7 +142,7 @@ export default function Issue() {
   return (
     <Modal>
       <div className="flex gap-4 px-4 max-sm:flex-col max-h-90">
-        <div className="flex flex-col md:w-1/2 max-h-90 max-sm:overflow-y-auto pr-2 max-sm:w-full justify-between">
+        <div className="flex flex-col md:w-1/2 max-h-90 max-sm:overflow-y-auto pr-2 max-sm:w-full">
           <div className="flex flex-col  max-h-90 max-sm:overflow-y-auto sm:overflow-y-auto pr-2 max-sm:w-full ">
             {issueData && (
               <div>
@@ -157,8 +157,7 @@ export default function Issue() {
               </div>
             )}
           </div>
-
-          <div className="flex justify-center items-end">
+          <div className="flex justify-center">
             {issueData &&
               issueData.status === "pending" &&
               issueData.userId === user?.id && <AcceptAnswer {...issueData} />}

@@ -15,7 +15,7 @@ export default function CustomerCard({
 }: CustomerProps) {
   return (
     <li>
-      <div className="flex">
+      <div className="flex gap-4">
         <div className="flex flex-col items-center">
           <div className="w-30 h-30 flex">
             <Image

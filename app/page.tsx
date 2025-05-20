@@ -98,7 +98,7 @@ export default function Home() {
               img="/pablo-image.jpeg"
               name="Pablo Jimenez"
               role="Backend Developer"
-              thoughts="aouaoua"
+              thoughts='"see a lot of potential in Problend. We live in a time where everyone faces different kinds of problems, and having a space where real people can share real solutions is powerful. If the community grows the way I imagine, Problend could become an essential tool for those seeking support beyond automated or generic answers."'
             />
           </ul>
         </section>
