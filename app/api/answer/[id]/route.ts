@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const { id } = params;
 
     const answer = await prisma.answer.findUnique({
       where: { issueId: id },
@@ -39,7 +39,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const { id } = params;
 
     await prisma.answer.delete({
       where: { issueId: id },
