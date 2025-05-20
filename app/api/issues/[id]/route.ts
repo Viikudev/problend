@@ -2,21 +2,28 @@ import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest) {
   try {
-    const { id } = await params;
+    // const { id } = await params;
+    const id: string | null = request.nextUrl.searchParams.get("id");
 
-  const issue = await prisma.issue.findUnique({
-  where: { id: id },
-  include: {
-    Answer: {
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de issue no proporcionado" },
+        { status: 400 }
+      );
+    }
+    const issue = await prisma.issue.findUnique({
+      where: { id: id },
       include: {
+        Answer: {
+          include: {
+            User: true,
+          },
+        },
         User: true,
       },
-    },
-    User: true, 
-  },
-});
+    });
 
     if (!issue) {
       return NextResponse.json({ error: 'ISSUE no encontrado' }, { status: 404 });
@@ -30,9 +37,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest) {
   try {
-    const { id } = await params;
+    const id: string | null = request.nextUrl.searchParams.get("id");
 
     // Validar que el ID esté presente
     if (!id) {
@@ -60,9 +67,9 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest) {
   try {
-    const { id } = await params;
+    const id: string | null = request.nextUrl.searchParams.get("id");
     const body = await request.json();
 
     // Validar que el ID esté presente

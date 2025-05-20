@@ -2,12 +2,25 @@ import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
-export async function GET(
+// type RouteContext = {
+//   params: {
+//     id: string;
+//   };
+// };
+
+export const GET = async (
   request: NextRequest,
-  context: { params: { id: string } }
-) {
+  // context: RouteContext
+) => {
   try {
-    const { id } = context.params;
+    const id: string | null = request.nextUrl.searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de issue no proporcionado" },
+        { status: 400 }
+      );
+    }
 
     const answer = await prisma.answer.findUnique({
       where: { issueId: id },
@@ -18,7 +31,7 @@ export async function GET(
 
     if (!answer) {
       return NextResponse.json(
-        { error: "Aswer no encontrado" },
+        { error: "Answer no encontrado" },
         { status: 404 }
       );
     }
@@ -36,10 +49,17 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  // context: RouteContext
 ) {
   try {
-    const { id } = context.params;
+    const id: string | null = request.nextUrl.searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de issue no proporcionado" },
+        { status: 400 }
+      );
+    }
 
     await prisma.answer.delete({
       where: { issueId: id },
@@ -52,7 +72,7 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json("answer borrada exitosamente", { status: 200 });
+    return NextResponse.json("Answer borrada exitosamente", { status: 200 });
   } catch (error) {
     console.error("Error al borrar la answer:", error);
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
