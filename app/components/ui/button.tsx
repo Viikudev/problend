@@ -9,6 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        action: "bg-yellow-500 text-white cursor-pointer hover:scale-105",
         floating:
           "bg-orange-400 text-lg text-white font-bold hover:bg-orange-600",
         primary: "bg-sky-300 cursor-pointer hover:bg-sky-300/80",
