@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
 import { useIssues } from "../store/issuesStore";
@@ -13,7 +13,16 @@ import Image from "next/image";
 import { AlertDemo } from "../components/alert";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-export default function MyIssues() {
+
+export default function PageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MyIssues />
+    </Suspense>
+  );
+}
+
+function MyIssues() {
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
@@ -30,10 +39,10 @@ export default function MyIssues() {
       fetchIssues: state.fetchIssues,
     }))
   );
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchIssues();
-  }, [fetchIssues]);
+  }, []);
 
   const renderFilters = () => (
     <div className="flex flex-wrap gap-4 m-0">

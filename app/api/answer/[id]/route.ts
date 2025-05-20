@@ -2,12 +2,18 @@ import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
-export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
+export const GET = async (request: NextRequest) => {
   try {
-    const { id } = context.params;
+    const pathname = request.nextUrl.pathname;
+    const segments = pathname.split("/");
+    const id = segments.pop();
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de issue no proporcionado" },
+        { status: 400 }
+      );
+    }
 
     const answer = await prisma.answer.findUnique({
       where: { issueId: id },
@@ -18,7 +24,7 @@ export async function GET(
 
     if (!answer) {
       return NextResponse.json(
-        { error: "Aswer no encontrado" },
+        { error: "Answer no encontrado" },
         { status: 404 }
       );
     }
@@ -26,20 +32,27 @@ export async function GET(
     return NextResponse.json(answer, { status: 200 });
   } catch (error) {
     console.error("Error al obtener el ISSUE:", error);
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    const errorMessage =
+      error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       { error: "Error al obtener el ISSUE: " + errorMessage },
       { status: 500 }
     );
   }
-}
+};
 
-export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest) {
   try {
-    const { id } = context.params;
+    const pathname = request.nextUrl.pathname;
+    const segments = pathname.split("/");
+    const id = segments.pop();
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de issue no proporcionado" },
+        { status: 400 }
+      );
+    }
 
     await prisma.answer.delete({
       where: { issueId: id },
@@ -52,10 +65,11 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json("answer borrada exitosamente", { status: 200 });
+    return NextResponse.json("Answer borrada exitosamente", { status: 200 });
   } catch (error) {
     console.error("Error al borrar la answer:", error);
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    const errorMessage =
+      error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       { error: "Error al borrar la answer: " + errorMessage },
       { status: 500 }
