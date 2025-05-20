@@ -24,10 +24,11 @@ export async function GET(
     }
 
     return NextResponse.json(answer, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error al obtener el ISSUE:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     return NextResponse.json(
-      { error: "Error al obtener el ISSUE: " + error.message },
+      { error: "Error al obtener el ISSUE: " + errorMessage },
       { status: 500 }
     );
   }
@@ -40,11 +41,11 @@ export async function DELETE(
   try {
     const { id } = await params;
 
-    const answer = await prisma.answer.delete({
+    await prisma.answer.delete({
       where: { issueId: id },
     });
 
-    const issues = await prisma.issue.update({
+    await prisma.issue.update({
       where: { id: id },
       data: {
         status: "available",
@@ -52,10 +53,11 @@ export async function DELETE(
     });
 
     return NextResponse.json("answer borrada exitosamente", { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error al borrar la answer:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     return NextResponse.json(
-      { error: "Error al borrar la answer" + error.message },
+      { error: "Error al borrar la answer: " + errorMessage },
       { status: 500 }
     );
   }
