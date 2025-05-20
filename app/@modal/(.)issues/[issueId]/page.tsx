@@ -5,18 +5,14 @@ import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/app/components/ui/button";
 import { Textarea } from "@/app/components/ui/textarea";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { AnswerProps } from "@/app/types/answer";
+import { ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
 import { useIssues } from "@/app/store/issuesStore";
 import { Loader2 } from "lucide-react";
 
 export default function Issue() {
   const [isLoading, setIsLoading] = useState(false);
-  const [answer, setAnswer] = useState<AnswerProps | null>(null);
   const [textareaValue, setTextareaValue] = useState("");
-
-  const issues = useIssues((state) => state.issues);
 
   const params = useParams();
   const { user } = useUser();
@@ -54,8 +50,9 @@ export default function Issue() {
       }
     }
   };
-
+  const issues = useIssues((state) => state.issues);
   const issueData = issues.find((issue) => issue.id === params.issueId);
+
 
   return (
     <Modal>
@@ -63,14 +60,26 @@ export default function Issue() {
         <div className="flex flex-col w-3/5 md:w-1/2 max-h-90 max-sm:overflow-y-auto sm:overflow-y-auto pr-2 max-sm:w-full">
           {issueData && (
             <div>
-              <h2 className="text-lg font-bold">{issueData.title}</h2>
+                       <p className="text-sm text-muted-foreground mb-1">
+            Submitted by:{" "}
+            <span className="font-medium text-orange-600">
+              {issueData.User?.firstname}
+            </span>
+          </p>
+              <h3 className="text-lg font-bold">{issueData.title}</h3>
               <p>{issueData.description}</p>
             </div>
           )}
         </div>
         {issueData && issueData.status === "pending" ? (
           <div className="flex flex-col gap-2 max-h-90 overflow-y-auto w-1/2">
-            {answer && <p>{answer.content}</p>}
+                        <p className="text-sm text-muted-foreground mb-1">
+              Answered by:{" "}
+              <span className="font-medium text-orange-600">
+                {issueData.Answer?.User?.firstname}
+              </span>
+            </p>
+            {issueData.Answer && <p>{issueData.Answer.content}</p>}
           </div>
         ) : (
           <form

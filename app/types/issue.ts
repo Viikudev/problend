@@ -1,3 +1,5 @@
+import { AnswerProps } from "./answer"
+
 export type IssueProps = {
   id: string
   userId: string
@@ -8,6 +10,8 @@ export type IssueProps = {
   createdAt: Date
   status: keyof typeof status
   hasAnswer: boolean
+  User?: UserProps
+  Answer?: AnswerProps
 }
 
 export const areas = {
@@ -28,3 +32,10 @@ export const status = {
   available: "available",
   pending: "pending",
 }
+
+
+export type UserProps = {
+  firstname?: string
+  lastname?: string
+}
+

@@ -45,12 +45,15 @@ export async function GET() {
   try {
     // Obtener todos los "Issues" usando Prisma
     const issues = await prisma.issue.findMany({
-      include: {
-        User: true, // Incluir la información del usuario relacionado
-        Answer: true, // Incluir las respuestas relacionadas
+    include: {
+        Answer: {
+          include: {
+            User: true,
+          },
+        },
+        User: true, 
       },
-    })
-
+        })
     // Devolver una respuesta JSON con todos los "Issues"
     return NextResponse.json(issues, { status: 200 })
   } catch (error: any) {

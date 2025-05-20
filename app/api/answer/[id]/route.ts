@@ -8,6 +8,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
     const answer = await prisma.answer.findUnique({
       where: { issueId: id },
+        include: {
+    User: true,
+  },
     });
 
     if (!answer) {

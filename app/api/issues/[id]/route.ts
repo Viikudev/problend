@@ -6,13 +6,17 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   try {
     const { id } = await params;
 
-    const issue = await prisma.issue.findUnique({
-      where: { id: id },
+  const issue = await prisma.issue.findUnique({
+  where: { id: id },
+  include: {
+    Answer: {
       include: {
         User: true,
-        Answer: true,
       },
-    });
+    },
+    User: true, 
+  },
+});
 
     if (!issue) {
       return NextResponse.json({ error: 'ISSUE no encontrado' }, { status: 404 });

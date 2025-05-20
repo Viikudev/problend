@@ -2,10 +2,14 @@
 
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { areas } from "../types/issue";
+import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+
+import { areas } from "../types/issue";
+
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -23,27 +27,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   title: z
     .string()
     .min(1, { message: "Title is required" })
     .max(40, { message: "The title must have less than 40 characters" }),
-
-  description: z
-    .string()
-    .min(1, { message: "Description is required" }),
-
-  area: z
-    .string()
-    .min(1, { message: "Area is required" }),
+  description: z.string().min(1, { message: "Description is required" }),
+  area: z.string().min(1, { message: "Area is required" }),
 });
 
 export default function IssueForm() {
-  const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,37 +51,36 @@ export default function IssueForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(!isLoading);
-  if (user) {
-    try {
-      const newIssue = {
-        ...values,
-        status: "available",
-        userId: user.id,
-      };
+    if (!user) return;
+    setIsLoading(true);
 
+    const newIssue = {
+      ...values,
+      status: "available",
+      userId: user.id,
+    };
+
+    try {
       const response = await axios.post("/api/issues", newIssue);
+
       const from = sessionStorage.getItem("issueFrom") || "/issues";
       const message =
         response.status === 200 || response.status === 201
           ? "issue created successfully"
           : "problem to create issue";
+
       window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
     } catch (error) {
       console.error("Error creating issue:", error);
-
       const from = sessionStorage.getItem("issueFrom") || "/issues";
       const message = "error creating issue";
-
       window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
     } finally {
       setIsLoading(false);
     }
-  }
   };
 
   const areasArray = Object.entries(areas);
-  console.log(areasArray);
 
   return (
     <Form {...form}>
@@ -106,6 +101,7 @@ export default function IssueForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="description"
@@ -122,6 +118,7 @@ export default function IssueForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="area"
@@ -135,9 +132,9 @@ export default function IssueForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {areasArray.map((area) => (
-                    <SelectItem key={area[0]} value={area[0]}>
-                      {area[1]}
+                  {areasArray.map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                      {value}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -146,6 +143,7 @@ export default function IssueForm() {
             </FormItem>
           )}
         />
+
         <Button type="submit" disabled={isLoading}>
           {isLoading ? <Loader2 className="animate-spin" /> : "Create Issue"}
         </Button>
