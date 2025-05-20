@@ -2,18 +2,11 @@ import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
-// type RouteContext = {
-//   params: {
-//     id: string;
-//   };
-// };
-
-export const GET = async (
-  request: NextRequest,
-  // context: RouteContext
-) => {
+export const GET = async (request: NextRequest) => {
   try {
-    const id: string | null = request.nextUrl.searchParams.get("id");
+    const pathname = request.nextUrl.pathname;
+    const segments = pathname.split("/");
+    const id = segments.pop();
 
     if (!id) {
       return NextResponse.json(
@@ -39,20 +32,20 @@ export const GET = async (
     return NextResponse.json(answer, { status: 200 });
   } catch (error) {
     console.error("Error al obtener el ISSUE:", error);
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    const errorMessage =
+      error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       { error: "Error al obtener el ISSUE: " + errorMessage },
       { status: 500 }
     );
   }
-}
+};
 
-export async function DELETE(
-  request: NextRequest,
-  // context: RouteContext
-) {
+export async function DELETE(request: NextRequest) {
   try {
-    const id: string | null = request.nextUrl.searchParams.get("id");
+    const pathname = request.nextUrl.pathname;
+    const segments = pathname.split("/");
+    const id = segments.pop();
 
     if (!id) {
       return NextResponse.json(
@@ -75,7 +68,8 @@ export async function DELETE(
     return NextResponse.json("Answer borrada exitosamente", { status: 200 });
   } catch (error) {
     console.error("Error al borrar la answer:", error);
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    const errorMessage =
+      error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
       { error: "Error al borrar la answer: " + errorMessage },
       { status: 500 }

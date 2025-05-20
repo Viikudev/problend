@@ -52,21 +52,22 @@ function IssueCard({
 
   const handleDelete = async () => {
     setIsLoading(true);
-    const response = await axios.delete(`/api/issues/${id}`);
 
-    if (response.status === 200 || response.status === 201) {
-      const message = encodeURIComponent("issue deleted successfully");
-      const url = new URL(window.location.href);
-      const decodedMessage = decodeURIComponent(message);
-      url.searchParams.set("message", decodedMessage);
-      window.location.href = url.toString();
-    } else {
+    try {
+      const response = await axios.delete(`/api/issues/${id}`);
+
+      if (response.status === 200 || response.status === 201) {
+        const message = encodeURIComponent("issue deleted successfully");
+        const decodedMessage = decodeURIComponent(message);
+        window.location.assign(`/issues?message=${decodedMessage}`);
+      }
+    } catch (error) {
       const message = encodeURIComponent("issue delete failed");
-      const url = new URL(window.location.href);
       const decodedMessage = decodeURIComponent(message);
-      url.searchParams.set("message", decodedMessage);
-      window.location.href = url.toString();
-      console.error("issue delete failed:", response);
+      window.location.assign(`/issues?message=${decodedMessage}`);
+      console.log("Error creating answer:", error);
+    } finally {
+      setIsLoading(!isLoading);
     }
   };
 

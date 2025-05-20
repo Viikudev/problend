@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -60,7 +60,15 @@ function CreateIssueButton() {
   );
 }
 
-export default function Page() {
+export default function PageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Page />
+    </Suspense>
+  );
+}
+
+function Page() {
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
