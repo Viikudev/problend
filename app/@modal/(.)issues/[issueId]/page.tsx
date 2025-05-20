@@ -21,7 +21,7 @@ function AcceptAnswer(issueData: IssueProps) {
 
     if (response.status === 200 || response.status === 201) {
       const message = encodeURIComponent("answer deleted successfully");
-      const url = new URL(window.location.href);
+      // const url = new URL(window.location.href);
       const decodedMessage = decodeURIComponent(message);
       window.location.assign(`/myissues?message=${decodedMessage}`);
     } else {

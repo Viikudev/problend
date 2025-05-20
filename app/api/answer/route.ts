@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
           imageUrl: body.imageUrl,
         },
       });
-      const updateIssue = await prisma.issue.update({
+      await prisma.issue.update({
         where: {
           id: body.issueId,
         },

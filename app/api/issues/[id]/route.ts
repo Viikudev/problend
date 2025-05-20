@@ -23,9 +23,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     }
 
     return NextResponse.json(issue, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error al obtener el ISSUE:', error);
-    return NextResponse.json({ error: 'Error al obtener el ISSUE: ' + error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    return NextResponse.json({ error: 'Error al obtener el ISSUE: ' + errorMessage }, { status: 500 });
   }
 }
 
@@ -51,10 +52,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
     // Devolver una respuesta JSON indicando éxito
     return NextResponse.json({ message: 'ISSUE eliminado exitosamente' }, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     // Manejar errores
     console.error('Error al eliminar el ISSUE:', error);
-    return NextResponse.json({ error: 'Error al eliminar el ISSUE: ' + error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    return NextResponse.json({ error: 'Error al eliminar el ISSUE: ' + errorMessage }, { status: 500 });
   }
 }
 
@@ -73,8 +75,17 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: 'No se proporcionó ningún dato para actualizar' }, { status: 400 });
     }
 
-    const camposActualizables = ['title', 'description', 'status', 'area', 'imageUrl', 'hasAnswer'];
-    const actualizaciones: { [key: string]: any } = {};
+    type UpdateableIssueFields = {
+      title?: string;
+      description?: string;
+      status?: 'available' | 'resolved' | 'pending';
+      area?: 'programming' | 'mechanics' | 'mathematics' | 'accounting' | 'languages' | 'electronics' | 'cooking' | 'videoEdition' | 'graphicDesign' | 'economy' | 'other';
+      imageUrl?: string | null;
+      hasAnswer?: boolean;
+    };
+
+    const camposActualizables = ['title', 'description', 'status', 'area', 'imageUrl', 'hasAnswer'] as const;
+    const actualizaciones: Partial<UpdateableIssueFields> = {};
 
     for (const campo of camposActualizables) {
       if (campo in body) {
@@ -102,9 +113,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     // Devolver una respuesta JSON indicando éxito
     return NextResponse.json(updatedIssue, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     // Manejar errores
     console.error('Error al actualizar el ISSUE:', error);
-    return NextResponse.json({ error: 'Error al actualizar el ISSUE: ' + error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    return NextResponse.json({ error: 'Error al actualizar el ISSUE: ' + errorMessage }, { status: 500 });
   }
 }
