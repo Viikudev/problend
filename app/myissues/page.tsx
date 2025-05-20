@@ -11,11 +11,9 @@ import { ComboboxDemo, ComboboxDemoArea } from "../components/filterMenu";
 import { Button } from "../components/ui/button";
 import Image from "next/image";
 import { AlertDemo } from "../components/alert";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 export default function MyIssues() {
-  const pathname = usePathname();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
@@ -24,7 +22,7 @@ export default function MyIssues() {
 
   const { user } = useUser();
 
-  const { issues, loading, error, fetchIssues } = useIssues(
+  const { issues, loading, fetchIssues } = useIssues(
     useShallow((state) => ({
       issues: state.issues,
       loading: state.loading,
@@ -36,11 +34,6 @@ export default function MyIssues() {
   useEffect(() => {
     fetchIssues();
   }, [fetchIssues]);
-
-  const handleCreateIssueClick = () => {
-    sessionStorage.setItem("issueFrom", pathname);
-    router.push("/issueForm");
-  };
 
   const renderFilters = () => (
     <div className="flex flex-wrap gap-4 m-0">
@@ -61,15 +54,21 @@ export default function MyIssues() {
   const renderCreateIssueButton = () => (
     <div>
       <SignedIn>
-        <Button
-          onClick={handleCreateIssueClick}
-          variant="floating"
-          size="sm"
-          className="flex items-center cursor-pointer"
-        >
-          <Image src="/issue.svg" alt="create issue icon" width={20} height={20} />
-          Create Issue
-        </Button>
+        <Link href={"/issueform"}>
+          <Button
+            variant="floating"
+            size="sm"
+            className="flex items-center cursor-pointer"
+          >
+            <Image
+              src="/issue.svg"
+              alt="create issue icon"
+              width={20}
+              height={20}
+            />
+            Create Issue
+          </Button>
+        </Link>
       </SignedIn>
 
       <SignedOut>
@@ -79,7 +78,12 @@ export default function MyIssues() {
             size="sm"
             className="flex items-center cursor-pointer"
           >
-            <Image src="/issue.svg" alt="create issue icon" width={20} height={20} />
+            <Image
+              src="/issue.svg"
+              alt="create issue icon"
+              width={20}
+              height={20}
+            />
             Create Issue
           </Button>
         </SignInButton>

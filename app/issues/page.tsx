@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useSearchParams, useRouter} from "next/navigation";
+import { usePathname, useSearchParams} from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
@@ -19,17 +19,13 @@ import { useIssues } from "../store/issuesStore";
 import { useShallow } from "zustand/react/shallow";
 
 
-function CreateIssueButton({ pathname }: { pathname: string }) {
-  const router = useRouter();
-  const handleCreateIssueClick = () => {
-    sessionStorage.setItem("issueFrom", pathname);
-    router.push("/issueForm");
-  };
+function CreateIssueButton() {
+
   return (
     <>
       <SignedIn>
+        <Link href={"/issueform"}>
         <Button
-          onClick={handleCreateIssueClick}
           variant="floating"
           size="sm"
           className="flex items-center cursor-pointer"
@@ -37,6 +33,7 @@ function CreateIssueButton({ pathname }: { pathname: string }) {
           <Image src="/issue.svg" alt="create issue icon" width={20} height={20} />
           Create Issue
         </Button>
+        </Link>
       </SignedIn>
 
       <SignedOut>
@@ -52,7 +49,6 @@ function CreateIssueButton({ pathname }: { pathname: string }) {
 }
 
 export default function Page() {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
@@ -119,7 +115,7 @@ export default function Page() {
       <main className="flex flex-col gap-10 px-10 pb-10">
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           {renderFilters()}
-          <CreateIssueButton pathname={pathname} />
+          <CreateIssueButton />
         </div>
         <p>No issues found</p>
       </main>
@@ -131,7 +127,7 @@ export default function Page() {
       <main className="flex flex-col gap-10 px-10 pb-10">
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           {renderFilters()}
-          <CreateIssueButton pathname={pathname} />
+          <CreateIssueButton />
         </div>
 
         <ul className="grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center">

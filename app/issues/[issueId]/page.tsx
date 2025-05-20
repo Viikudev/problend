@@ -8,8 +8,10 @@ import { IssueProps } from "@/app/types/issue";
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Skeleton } from "@/app/components/ui/skeleton";
+import { Loader2 } from "lucide-react";
 
 export default function Issue() {
+  const [isLoading, setIsLoading] = useState(false);
   const [issue, setIssue] = useState<IssueProps | null>(null);
   const [textareaValue, setTextareaValue] = useState("");
   const { user } = useUser();
@@ -29,6 +31,7 @@ export default function Issue() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+     setIsLoading(!isLoading);
     if (!user) return;
 
     try {
@@ -49,7 +52,9 @@ export default function Issue() {
       window.location.assign(`/issues?message=${encodeURIComponent(message)}`);
     } catch (error) {
       console.error("Error creating answer:", error);
-    }
+    }finally {
+        setIsLoading(!isLoading);
+      }
   };
 
   if (!issue) {
@@ -124,8 +129,8 @@ export default function Issue() {
               value={textareaValue}
             />
             <div className="flex justify-end">
-              <Button type="submit" className="w-full">
-                Send Answer
+              <Button type="submit" disabled={isLoading} className="w-full" >
+              {isLoading ? <Loader2 className="animate-spin" /> : "Send Answer"}
               </Button>
             </div>
           </form>
