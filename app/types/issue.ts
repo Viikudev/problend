@@ -1,18 +1,18 @@
-import { AnswerProps } from "./answer"
+import { AnswerProps } from "./answer";
 
 export type IssueProps = {
-  id: string
-  userId: string
-  title: string
-  description: string
-  imageUrl?: string
-  area: keyof typeof areas
-  createdAt: Date
-  status: keyof typeof status
-  hasAnswer: boolean
-  User?: UserProps
-  Answer?: AnswerProps
-}
+  id: string;
+  userId: string;
+  title: string;
+  description: string;
+  imageUrl?: string;
+  area: keyof typeof areas;
+  createdAt: Date;
+  status: keyof typeof status;
+  hasAnswer: boolean;
+  User?: UserProps;
+  Answer?: AnswerProps;
+};
 
 export const areas = {
   programming: "Programming",
@@ -25,17 +25,16 @@ export const areas = {
   graphicDesign: "Graphic Design",
   economy: "Economy",
   mathematics: "Mathematics",
-}
+  other: "Other",
+};
 
 export const status = {
   resolved: "resolved",
   available: "available",
   pending: "pending",
-}
-
+};
 
 export type UserProps = {
-  firstname?: string
-  lastname?: string
-}
-
+  firstname?: string;
+  lastname?: string;
+};
