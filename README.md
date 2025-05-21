@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Problend
 
-## Getting Started
+Problend es una aplicación construida con [Next.js](https://nextjs.org) que permite la gestión y resolución de issues entre usuarios. El proyecto está enfocado en la colaboración y la interacción eficiente entre quienes reportan problemas y quienes los resuelven.
 
-First, run the development server:
+## Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[Enlace a la demo](https://problend.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Características principales
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Gestión de issues: creación, visualización y resolución.
+- Sistema de respuestas y aceptación/rechazo de soluciones.
+- Interfaz moderna y responsiva.
+- Integración con Clerk para autenticación de usuarios.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Uso de Clerk
 
-## Learn More
+Este proyecto utiliza [Clerk](https://clerk.com/) para la autenticación y gestión de usuarios.  
 
-To learn more about Next.js, take a look at the following resources:
+- Registro e inicio de sesion mediante la plataforma de Clerk mediante Google o Github. 🔑
+- Uso de webhooks para cargar los datos del usuario en la base de datos. 🔗
+- Proteccion de rutas para las funcionalidades que requieran de que el usuario este autenticado. 🛡️
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Instalación y ejecución
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clona el repositorio:
 
-## Deploy on Vercel
+   ```js
+   git clone https://github.com/Viikudev/problend.git
+   cd problend
+   ```
+   
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Instala las dependencias:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```js
+   npm install
+   ```
+   # o
+   ```js
+   yarn install
+   ```
+
+4. Configura las variables de entorno necesarias en tu archivo ".env" :
+
+   #claves de clerk:
+
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+   CLERK_SECRET_KEY=
+   CLERK_WEBHOOK_SIGNING_SECRET= whsec\*...
+
+   #url de tu DB
+   DATABASE_URL= 'url de tu DB postgresql'
+
+   #redirecciones post sign in/sign up
+   NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+   NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+
+5. Haz la migracion de los modelos a tu DB:
+   npx prisma migrate dev --name <nombre_de_la_migracion>
+   npx prisma generate
+
+6. Inicia el servidor de desarrollo:
+
+   ```js
+   npm run dev
+   ```
+   # o
+   ```js
+   yarn dev
+   ```
+   
+
+8. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## Tecnologías utilizadas
+
+- Next.js
+- Clerk
+- React
+- TypeScript
+- Postgresql
+- Tailwindcss
