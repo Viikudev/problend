@@ -150,6 +150,9 @@ function Page() {
   return (
     <>
       <main className="flex flex-col gap-10 px-10 pb-10">
+        <h1 className="font-bold text-xl text-neutral-600 underline decoration-2 decoration-orange-400">
+          All Issues Page
+        </h1>
         <div className="flex flex-wrap gap-6 space-y-2 items-center justify-between">
           {renderFilters()}
           <CreateIssueButton />
