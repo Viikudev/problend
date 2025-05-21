@@ -89,7 +89,7 @@ export default function Home() {
           </h2>
           <ul className="flex flex-wrap justify-center gap-30 max-sm:gap-16">
             <CustomerCard
-              img="/victor-photo.jpg"
+              img="/victor-photo.jpeg"
               name="Victor Samuel"
               role="Frontend Developer"
               thoughts='"I like to use Problend because i can resolve my daily life issues. In the current time where the IA is taking every corner, I appreciate this space for a more human problem solving."'
