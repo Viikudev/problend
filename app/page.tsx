@@ -103,11 +103,11 @@ export default function Home() {
           </ul>
         </section>
         <section className="bg-orange-50 flex flex-col items-center gap-6 md:gap-8 py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24">
-          <div className="flex flex-col gap-2 text-center">
+          <div className="flex flex-col gap-2 items-center">
             <h2 className="font-bold text-xl sm:text-2xl md:text-3xl text-center">
               Are you ready to be a part of this fantastic community?
             </h2>
-            <p className="text-neutral-600 text-md text-center md:w-3/4 lg:w-1/2">
+            <p className="text-neutral-600 text-md text-center ">
               Collaborate, resolve, and find the answers of your problems with a
               huge community
             </p>

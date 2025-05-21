@@ -13,7 +13,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
       <DialogOverlay>
-        <DialogContent className="flex flex-col w-3/5 h-100">
+        <DialogContent className="flex flex-col w-3/5 max-sm:h-125">
           <DialogTitle className="sr-only">Modal</DialogTitle>
           <div className="text-neutral-600 text-sm">{children}</div>
         </DialogContent>

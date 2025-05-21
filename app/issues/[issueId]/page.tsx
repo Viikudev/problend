@@ -172,8 +172,8 @@ export default function Issue() {
       <div className="w-full max-w-6xl h-full bg-white p-6 shadow-lg border flex flex-col rounded-md ">
         <div className="flex flex-col md:flex-row gap-6 flex-1 overflow-hidden">
           {/* Left column - Issue details */}
-          <div className="w-full md:w-1/2 pr-4 border-r overflow-y-auto max-h-[80vh] flex flex-col justify-between">
-            <div className=" pr-4 border-r overflow-y-auto  flex flex-col ">
+          <div className="w-full md:w-1/2 pr-4 flex flex-col justify-between">
+            <div className=" pr-4 overflow-y-auto  flex flex-col ">
               <p className="text-sm text-muted-foreground mb-1">
                 Submitted by:{" "}
                 <span className="font-medium text-orange-600">

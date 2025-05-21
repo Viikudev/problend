@@ -56,9 +56,9 @@ function AcceptAnswer(issueData: IssueProps) {
       {isLoading ? (
         <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
       ) : (
-        <div className="flex flex-col gap-4 items-start text-sm text-muted-foregroundsh">
+        <div className="flex flex-col items-start text-sm text-muted-foregroundsh">
           Was the answer helpful?
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-2 items-center">
             <Button
               onClick={handleDelete}
               variant="ghost"
@@ -144,10 +144,10 @@ export default function Issue() {
 
   return (
     <Modal>
-      <div className="flex justify-center flex-col md:flex-row gap-6 flex-1 overflow-hidden h-90">
+      <div className="flex max-sm:justify-between flex-col md:flex-row gap-6 flex-1 overflow-hidden h-110">
         {/* Left Column */}
-        <div className="flex flex-col flex-1 h-full overflow-hidden md:pr-4 md:border-r">
-          <div className=" pr-4 border-r overflow-y-auto  flex flex-col ">
+        <div className="flex flex-col sm:w-1/2 overflow-hidden md:border-r justify-between">
+          <div className=" pr-4 overflow-y-auto max-h-90 flex flex-col ">
             <p className="text-sm text-muted-foreground mb-1">
               Submitted by:{" "}
               <span className="font-medium text-orange-600">
@@ -168,7 +168,7 @@ export default function Issue() {
         </div>
 
         {/* Right Column */}
-        <div className="flex flex-col flex-1 h-full overflow-y-auto">
+        <div className="flex flex-col max-sm:h-50 sm:w-1/2 overflow-y-auto">
           {issueData?.status === "pending" && issueData?.Answer ? (
             <div className="pr-2">
               <p className="text-sm text-muted-foreground mb-1">
@@ -177,7 +177,7 @@ export default function Issue() {
                   {issueData.Answer.User?.firstname}
                 </span>
               </p>
-              <div className="p-4 text-gray-800 whitespace-pre-wrap">
+              <div className="text-gray-800 whitespace-pre-wrap">
                 {issueData.Answer.content}
               </div>
             </div>
@@ -196,7 +196,7 @@ export default function Issue() {
                 id="text"
                 required
                 placeholder="Write your answer here..."
-                className="resize-none flex-1 min-h-[200px]"
+                className="resize-none flex-1 min-h-[150px]"
                 onChange={handleTextareaValue}
                 value={textareaValue}
               />

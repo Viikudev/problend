@@ -1,20 +1,23 @@
 import Image from "next/image";
+import { motion, Variants } from "framer-motion";
 
-type CustomerProps = {
+interface CustomerProps {
   img: string;
   name: string;
   role: string;
   thoughts: string;
-};
+  variants?: Variants;
+}
 
 export default function CustomerCard({
   img,
   name,
   role,
   thoughts,
+  variants,
 }: CustomerProps) {
   return (
-    <li>
+    <motion.li variants={variants}>
       <div className="flex gap-4 max-sm:flex-col-reverse">
         <div className="flex flex-col items-center">
           <div className="w-30 h-30 flex">
@@ -33,6 +36,6 @@ export default function CustomerCard({
           <i>{thoughts}</i>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 }
