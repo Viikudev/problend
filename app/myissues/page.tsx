@@ -51,7 +51,7 @@ function MyIssues() {
       <Button
         variant="outline"
         onClick={() => {
-          setStatusFilter("");
+          setStatusFilter("all");
           setAreaFilter("");
         }}
       >
@@ -104,6 +104,19 @@ function MyIssues() {
     return user ? issues.filter((issue) => issue.userId === user.id) : [];
   }, [issues, user]);
 
+  const filteredIssues = myIssues.filter((issue) => {
+    const statusMatch =
+      statusFilter === "all" ||
+      (statusFilter === "active" && issue.status === "available") ||
+      (statusFilter === "resolved" &&
+        (issue.status === "resolved" || issue.status === "pending")) ||
+      (statusFilter === "myCards" && user && issue.userId === user.id);
+
+    const areaMatch = !areaFilter || issue.area === areaFilter;
+
+    return statusMatch && areaMatch;
+  });
+
   if (loading) return <IssueSkeleton />;
 
   return (
@@ -119,7 +132,7 @@ function MyIssues() {
         ) : (
           <ul className="grid xl:grid-cols-[repeat(4,minmax(10rem,1fr))] lg:max-xl:grid-cols-[repeat(3,minmax(10rem,1fr))] md:max-lg:grid-cols-[repeat(2,minmax(10rem,1fr))] max-md:grid-cols-[repeat(1,minmax(10rem,1fr))] gap-10 justify-center">
             <AnimatePresence mode="wait">
-              {myIssues.map((issue) => (
+              {filteredIssues.map((issue) => (
                 <motion.div
                   key={issue.id}
                   initial={{ opacity: 0, scale: 0.95 }}
