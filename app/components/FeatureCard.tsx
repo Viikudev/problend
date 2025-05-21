@@ -8,8 +8,8 @@ type FeatureProps = {
 
 export default function FeatureCard({ img, title, description }: FeatureProps) {
   return (
-    <li className="p-6 flex border w-100 gap-10 items-center">
-      <div className="w-50">
+    <li className="p-6 flex border w-100 gap-10 items-center max-sm:flex-col max-sm:w-80 max-sm:text-center max-sm:gap-6">
+      <div className="w-50 max-sm:w-30">
         <Image
           src={img}
           alt="create icon"

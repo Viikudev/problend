@@ -15,7 +15,7 @@ export default function CustomerCard({
 }: CustomerProps) {
   return (
     <li>
-      <div className="flex gap-4">
+      <div className="flex gap-4 max-sm:flex-col-reverse">
         <div className="flex flex-col items-center">
           <div className="w-30 h-30 flex">
             <Image
@@ -27,7 +27,7 @@ export default function CustomerCard({
             />
           </div>
           <h2 className="font-bold text-amber-500">{name}</h2>
-          <p className="text-neutral-600">{role}</p>
+          <p className="text-neutral-600 text-sm">{role}</p>
         </div>
         <div className="w-80 bg-amber-50 text-neutral-600 self-start py-2 px-4 rounded-sm shadow-md">
           <i>{thoughts}</i>

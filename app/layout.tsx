@@ -41,7 +41,7 @@ export default function RootLayout({
         >
           <header className="bg-amber-100 flex justify-between items-start p-4 gap-4 h-30 mask-b-from-10%">
             <nav>
-              <ul className="flex items-center gap-10">
+              <ul className="flex items-center gap-6">
                 <Link href="/">
                   <GlowingLogo className="w-full" />
                 </Link>
@@ -52,26 +52,23 @@ export default function RootLayout({
                   >
                     <li>All Issues</li>
                   </Link>
-                    
-                    <SignedOut>
-                      <SignInButton mode="modal">
-                            <button className="hover:underline decoration-amber-600 decoration-2">
-                              My Issues
-                              </button>
-                              </SignInButton>
-                    </SignedOut>
 
+                  <SignedOut>
+                    <SignInButton mode="modal">
+                      <button className="hover:underline decoration-amber-600 decoration-2">
+                        My Issues
+                      </button>
+                    </SignInButton>
+                  </SignedOut>
 
-                <SignedIn>
-                  <Link
-                    href="/myissues"
-                    className="hover:underline decoration-amber-600 decoration-2"
-                  >
-                    <li>My Issues</li>
-                  </Link>
-                    </SignedIn>
-
-
+                  <SignedIn>
+                    <Link
+                      href="/myissues"
+                      className="hover:underline decoration-amber-600 decoration-2 cursor-pointer"
+                    >
+                      <li>My Issues</li>
+                    </Link>
+                  </SignedIn>
                 </div>
               </ul>
             </nav>
