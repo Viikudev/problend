@@ -57,7 +57,7 @@ function AcceptAnswer(issueData: IssueProps) {
         <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
       ) : (
         <div className="flex flex-col gap-4 items-start text-sm text-muted-foregroundsh">
-          Is the answer good?
+          Was the answer helpful?
           <div className="flex gap-3 items-center">
             <Button
               onClick={handleDelete}

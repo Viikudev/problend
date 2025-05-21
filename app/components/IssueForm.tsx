@@ -64,7 +64,7 @@ export default function IssueForm() {
     try {
       const response = await axios.post("/api/issues", newIssue);
 
-      const from = sessionStorage.getItem("issueFrom") || "/issues";
+      const from = sessionStorage.getItem("issueFrom") || "/myissues";
       const message =
         response.status === 200 || response.status === 201
           ? "issue created successfully"
@@ -73,7 +73,7 @@ export default function IssueForm() {
       window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
     } catch (error) {
       console.error("Error creating issue:", error);
-      const from = sessionStorage.getItem("issueFrom") || "/issues";
+      const from = sessionStorage.getItem("issueFrom") || "/myissues";
       const message = "error creating issue";
       window.location.assign(`${from}?message=${encodeURIComponent(message)}`);
     } finally {
