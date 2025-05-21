@@ -36,7 +36,7 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-          <div className="w-full lg:w-6/12 mt-8 lg:mt-0 shadow-lg shadow-neutral-300">
+          <div className="w-full lg:w-6/12 mt-8 lg:mt-0 shadow-lg shadow-neutral-300 ">
             <picture>
               <source
                 media="(max-width: 900px)"
@@ -44,7 +44,7 @@ export default function Home() {
               />
 
               <Image
-                src="/problend-image.png"
+                src="/issues-page.jpeg"
                 alt="app image preview"
                 width={1138}
                 height={589}
@@ -57,7 +57,38 @@ export default function Home() {
             </picture>
           </div>
         </div>
-        <section className="flex flex-col items-center gap-8 md:gap-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24">
+        <section className="flex flex-col items-center md:gap-30 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24">
+          <div className="flex gap-10">
+            <div className="shadow-lg">
+              <Image
+                src="/answer-page.jpeg"
+                alt="app image preview"
+                width={512}
+                height={489}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: "1rem",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+            <div className="shadow-lg">
+              <Image
+                src="/rating-page.jpeg"
+                alt="app image preview"
+                width={509}
+                height={488}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: "1rem",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          </div>
+
           <p className="w-full md:w-3/4 lg:w-2/3 font-medium text-neutral-600 text-md md:text-lg text-center">
             Imagine a space where your challenges become opportunities for
             others to contribute. Our platform fosters a vibrant community of
