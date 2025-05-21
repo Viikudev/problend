@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   title: z
@@ -109,7 +110,8 @@ export default function IssueForm() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input
+                <Textarea
+                  className="resize-none averflow-y-auto max-h-50"
                   placeholder="Type here the detailed description of the issue"
                   {...field}
                 />
