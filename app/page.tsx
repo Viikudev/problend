@@ -40,7 +40,7 @@ export default function Home() {
             <picture>
               <source
                 media="(max-width: 900px)"
-                srcSet="/problend-image2.png"
+                srcSet="/issues-page-mobile.jpeg"
               />
 
               <Image
@@ -57,8 +57,8 @@ export default function Home() {
             </picture>
           </div>
         </div>
-        <section className="flex flex-col items-center md:gap-30 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24">
-          <div className="flex gap-10">
+        <section className="flex flex-col items-center md:gap-30 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 max-sm:gap-30">
+          <div className="flex gap-10 max-md:flex-col max-sm:gap-30">
             <div className="shadow-lg">
               <Image
                 src="/answer-page.jpeg"
