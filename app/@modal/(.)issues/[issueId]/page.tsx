@@ -169,16 +169,17 @@ export default function Issue() {
 
         {/* Right Column */}
         <div className="flex flex-col max-sm:h-50 sm:w-1/2 overflow-y-auto">
-          {issueData?.status === "pending" && issueData?.Answer ? (
+          {issueData?.status === "pending" ||
+          (issueData?.status === "resolved" && issueData?.Answer) ? (
             <div className="pr-2">
               <p className="text-sm text-muted-foreground mb-1">
                 Answered by:{" "}
                 <span className="font-medium text-orange-600">
-                  {issueData.Answer.User?.firstname}
+                  {issueData.Answer?.User?.firstname}
                 </span>
               </p>
               <div className="text-gray-800 whitespace-pre-wrap">
-                {issueData.Answer.content}
+                {issueData.Answer?.content}
               </div>
             </div>
           ) : (
