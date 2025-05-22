@@ -195,16 +195,17 @@ export default function Issue() {
 
           {/* Right column - Answer or Form */}
           <div className="w-full md:w-1/2 overflow-y-auto max-h-[80vh]">
-            {issue.status === "pending" && issue.Answer ? (
+            {issue.status === "pending" ||
+            (issue.status === "resolved" && issue.Answer) ? (
               <div className="pr-2">
                 <p className="text-sm text-muted-foreground mb-1">
                   Answered by:{" "}
                   <span className="font-medium text-orange-600">
-                    {issue.Answer.User?.firstname}
+                    {issue.Answer?.User?.firstname}
                   </span>
                 </p>
                 <div className="p-4 text-gray-800 whitespace-pre-wrap">
-                  {issue.Answer.content}
+                  {issue.Answer?.content}
                 </div>
               </div>
             ) : (
